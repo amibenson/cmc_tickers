@@ -3,6 +3,7 @@ import timeago
 from  tickers.models import *
 import datetime
 from django.utils.safestring import mark_safe
+import humanize
 #admin.site.register(tickers.models.Ticker)
 #admin.site.register(TickerHistory)
 
@@ -32,10 +33,16 @@ def format_name(obj):
 format_name.short_description = 'name'
 format_name.admin_order_field = 'name'
 
+#
+def format_markedCapUsd(obj):
+    return humanize.intword(obj.markedCapUsd)
+format_markedCapUsd.short_description = 'markedCapUsd'
+format_markedCapUsd.admin_order_field = 'markedCapUsd'
+
 
 @admin.register(Ticker)
 class TickerAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', 'markedCapUsd', 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
+    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', format_markedCapUsd, 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
