@@ -23,3 +23,4 @@ class TickerAdmin(admin.ModelAdmin):
     list_display = ('name', 'symbol', 'priceBtc', 'priceUsd', format_time_ago_lastUpdated, format_time_ago_dateAdded)
     ordering = ('rank', )
     list_filter = ('symbol',)
+    search_fields = ['name', 'symbol' ]
