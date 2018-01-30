@@ -35,7 +35,7 @@ format_name.admin_order_field = 'name'
 
 @admin.register(Ticker)
 class TickerAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
+    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', 'markedCapUsd', 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
@@ -66,7 +66,7 @@ class TickerAdmin(admin.ModelAdmin):
 """
 @admin.register(TickerHistory)
 class TickerHistoryAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated)
+    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd','markedCapUsd', 'percentChange24h', format_time_ago_lastUpdated)
     ordering = ('-lastUpdated', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
