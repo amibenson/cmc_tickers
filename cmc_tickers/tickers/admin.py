@@ -6,7 +6,7 @@ import datetime
 #admin.site.register(tickers.models.TickerHistory)
 
 def format_time_ago(obj):
-    return timeago.format(obj.lastUpdated , datetime.datetime.now())
+    return timeago.format(obj.lastUpdated , datetime.datetime.now().replace(tzinfo=None))
 
 format_time_ago.short_description = 'last Updated'
 format_time_ago.allow_tags = True
