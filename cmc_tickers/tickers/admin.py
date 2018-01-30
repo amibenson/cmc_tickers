@@ -20,7 +20,7 @@ format_time_ago_dateAdded.admin_order_field = 'dateAdded'
 
 @admin.register(Ticker)
 class TickerAdmin(admin.ModelAdmin):
-    list_display = ('name', 'symbol', 'priceBtc', 'priceUsd', format_time_ago_lastUpdated, format_time_ago_dateAdded)
+    list_display = ('rank', 'name', 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
