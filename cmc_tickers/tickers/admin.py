@@ -27,7 +27,7 @@ format_day_trading_to_market_cap_percent.admin_order_field = 'dayVolumeUsd'
 
 # https://coinmarketcap.com/currencies/iostoken/
 def format_name(obj):
-    return  '%s<br><small><a href="https://coinmarketcap.com/currencies/%s/" target=_blank></a>https://coinmarketcap.com/currencies/%s/</small><br>' % (obj.name, obj.name, obj.name )
+    return  '%s<br><small><a href="https://coinmarketcap.com/currencies/%s/" target=_blank></a>https://coinmarketcap.com/currencies/%s/</a></small><br>' % (obj.name, obj.name, obj.name )
 format_name.short_description = 'name'
 format_name.allow_tags = True
 format_name.admin_order_field = 'name'
