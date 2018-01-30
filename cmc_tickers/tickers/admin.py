@@ -25,10 +25,17 @@ format_day_trading_to_market_cap_percent.allow_tags = True
 format_day_trading_to_market_cap_percent.admin_order_field = 'dayVolumeUsd'
 
 
+# https://coinmarketcap.com/currencies/iostoken/
+def format_name(obj):
+    return  '%s<br><small><a href="https://coinmarketcap.com/currencies/%s/" target=_blank></a>https://coinmarketcap.com/currencies/%s/</small><br>' % (obj.name, obj.name, obj.name )
+format_name.short_description = 'name'
+format_name.allow_tags = True
+format_name.admin_order_field = 'name'
+
 
 @admin.register(Ticker)
 class TickerAdmin(admin.ModelAdmin):
-    list_display = ('rank', 'name', 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
+    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
@@ -59,7 +66,7 @@ class TickerAdmin(admin.ModelAdmin):
 """
 @admin.register(TickerHistory)
 class TickerHistoryAdmin(admin.ModelAdmin):
-    list_display = ('rank', 'name', 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated)
+    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', 'percentChange24h', format_time_ago_lastUpdated)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
