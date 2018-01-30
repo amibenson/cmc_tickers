@@ -1,6 +1,10 @@
 from django.contrib import admin
 
-import tickers.models
+from  tickers.models import *
 
-admin.site.register(tickers.models.Ticker)
-admin.site.register(tickers.models.TickerHistory)
+#admin.site.register(tickers.models.Ticker)
+#admin.site.register(tickers.models.TickerHistory)
+
+@admin.register(Ticker)
+class TickerAdmin(admin.ModelAdmin):
+    list_display = ('name', 'symbol',)
