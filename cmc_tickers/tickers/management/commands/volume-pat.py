@@ -17,6 +17,8 @@ class Command(BaseCommand):
         symbol = options['symbol']
         alert_trading_volume_percent_th = options['alertt']
 
+        print("Started with symbol: %s" % (symbol))
+        print("Started with alert_trading_volume_percent_th: %s" % (alert_trading_volume_percent_th))
         if symbol:
             symbol = symbol.upper()
 
