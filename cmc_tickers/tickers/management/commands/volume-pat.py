@@ -47,7 +47,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                   (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, reading.percentChange24h, s_percent) \
                   )
             if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen < float(s_percent.replace('%', '')):
-                flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', '')
+                flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', ''))
 
         if flt_max_24h_trading_volume_to_mcad_seen and alert_trading_volume_percent_th and \
            flt_max_24h_trading_volume_to_mcad_seen > alert_trading_volume_percent_th:
