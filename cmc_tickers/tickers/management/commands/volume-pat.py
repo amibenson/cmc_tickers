@@ -3,7 +3,7 @@ from django.core.management.base import BaseCommand
 from  tickers.models import *
 from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 
-import string
+
 
 class Command(BaseCommand):
     help = 'Find ticker with increasing/decreasing volume patterns.'
@@ -46,9 +46,9 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                   (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, reading.percentChange24h, s_percent) \
                   )
 
-            if alert_trading_volume_percent_th and alert_trading_volume_percent_th > float(string.replace(s_percent, '%', '')):
+            if alert_trading_volume_percent_th and alert_trading_volume_percent_th > float(s_percent.replace('%', '')):
                 print("-- ALERT %s 24h trading / mcap" % (s_percent))
-                
+
         print("=======================\r\n")
 
 
