@@ -46,7 +46,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                   (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, reading.percentChange24h, s_percent) \
                   )
 
-            if alert_trading_volume_percent_th and alert_trading_volume_percent_th > float(s_percent.replace('%', '')):
+            if alert_trading_volume_percent_th and float(alert_trading_volume_percent_th) > float(s_percent.replace('%', '')):
                 print("-- ALERT %s 24h trading / mcap" % (s_percent))
 
         print("=======================\r\n")
