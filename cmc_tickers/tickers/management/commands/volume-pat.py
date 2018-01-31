@@ -38,8 +38,8 @@ def print_ticker_history_rs_data(rs_TickerHistory):
     if rs:
         print("=======================\r\n")
         for reading in rs:
-            print("%s symbol at %s - %s BTC with %s trading percent" % \
-                  (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, get_day_trading_of_mcap_percent_for_obj(obj=reading)) \
+            print("%s symbol ticker was read %s, value %s BTC (%s%% daily change) with %s trading percent" % \
+                  (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, reading.percentChange24h, get_day_trading_of_mcap_percent_for_obj(obj=reading)) \
                   )
 
 
