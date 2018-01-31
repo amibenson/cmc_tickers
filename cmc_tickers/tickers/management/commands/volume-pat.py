@@ -39,15 +39,18 @@ class Command(BaseCommand):
 def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_th = None):
     rs = rs_TickerHistory
     if rs:
+        flt_max_24h_trading_volume_to_mcad_seen = None
         print("=======================\r\n")
         for reading in rs:
             s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
             print("%s symbol ticker was read %s, value %s BTC (%s%% daily change) with %s trading percent" % \
                   (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, reading.percentChange24h, s_percent) \
                   )
+            if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen > float(s_percent.replace('%', ''):
+                flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', '')
 
-            if alert_trading_volume_percent_th and float(alert_trading_volume_percent_th) < float(s_percent.replace('%', '')):
-                print("-- ALERT %s 24h trading / mcap" % (s_percent))
+        if flt_max_24h_trading_volume_to_mcad_seen and float(alert_trading_volume_percent_th) < flt_max_24h_trading_volume_to_mcad_seen):
+            print("-- ALERT %s 24h trading / mcap" % (s_percent))
 
         print("=======================\r\n")
 
