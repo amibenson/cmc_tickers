@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         symbol = options['symbol']
-        alert_trading_volume_percent_th = options['alertt']
+        alert_trading_volume_percent_th = float(options['alertt'])
 
         print("Started with symbol: %s" % (symbol))
         print("Started with alert_trading_volume_percent_th: %s" % (alert_trading_volume_percent_th))
