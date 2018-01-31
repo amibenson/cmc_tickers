@@ -25,7 +25,9 @@ class Command(BaseCommand):
 
         if rs:
             for reading in rs:
-                print("%s symbol at %s - %s BTC with %s%% trading percent" % (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, get_day_trading_of_mcap_percent(obj=reading)))
+                print("%s symbol at %s - %s BTC with %s%% trading percent" % \
+                      (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, get_day_trading_of_mcap_percent_for_obj(obj=reading)) \
+                      )
 
 
 
