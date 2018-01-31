@@ -33,21 +33,32 @@ def format_name(obj):
 format_name.short_description = 'name'
 format_name.admin_order_field = 'name'
 
-#
+def format_using_humanize(val, format_type):
+    if format_type == humanize.intword:
+        return humanize.intword(val)
+
+
 def format_markedCapUsd(obj):
-    return humanize.intword(obj.markedCapUsd)
+    return format_using_humanize(obj.markedCapUsd, humanize.intword)
 format_markedCapUsd.short_description = 'markedCapUsd'
 format_markedCapUsd.admin_order_field = 'markedCapUsd'
 
+def format_dayVolumeUsd(obj):
+    return format_using_humanize(obj.dayVolumeUsd, humanize.intword)
+format_dayVolumeUsd.short_description = 'dayVolumeUsd'
+format_dayVolumeUsd.admin_order_field = 'dayVolumeUsd'
+
+
+#
 
 @admin.register(Ticker)
 class TickerAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', format_markedCapUsd, 'percentChange24h', format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
+    list_display = ('rank', format_name, 'symbol', 'priceBtc', 'priceUsd', format_markedCapUsd, 'percentChange24h', format_dayVolumeUsd,  format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
 
-
+    list_per_page = 500
 
 """
     tickerId = models.CharField(max_length=255)
