@@ -24,7 +24,7 @@ format_time_ago_dateAdded.admin_order_field = 'dateAdded'
 
 
 def format_day_trading_to_market_cap_percent(obj):
-    return  '{0:.1f}%'.format(obj.dayVolumeUsd / obj.markedCapUsd * 100) #"%d" % int((obj.dayVolumeUsd / obj.markedCapUsd) * 100)
+    return  get_day_trading_of_mcap_percent(obj.dayVolumeUsd, obj.markedCapUsd) #
 format_day_trading_to_market_cap_percent.short_description = 'day trading/mcap'
 format_day_trading_to_market_cap_percent.allow_tags = True
 format_day_trading_to_market_cap_percent.admin_order_field = 'dayVolumeUsd'
