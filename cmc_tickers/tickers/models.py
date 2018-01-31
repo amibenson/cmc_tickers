@@ -56,7 +56,7 @@ class TickerHistory(models.Model):
         null=True, blank=True, max_digits=5, decimal_places=2)
     lastUpdated = models.DateTimeField()
 
-    dateAdded = models.DateTimeField()
+    dateAdded = models.DateTimeField() # when was it first added to our DB
     lastAnalyzed = models.DateTimeField()
 
     def __str__(self):
