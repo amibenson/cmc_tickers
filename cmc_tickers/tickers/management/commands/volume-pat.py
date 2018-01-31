@@ -50,7 +50,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                 flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', '')
 
         if flt_max_24h_trading_volume_to_mcad_seen and alert_trading_volume_percent_th and \
-           flt_max_24h_trading_volume_to_mcad_seen > alert_trading_volume_percent_th):
+           flt_max_24h_trading_volume_to_mcad_seen > alert_trading_volume_percent_th:
             print("-- ALERT %s 24h trading / mcap" % (s_percent))
 
         print("=======================\r\n")
