@@ -21,13 +21,26 @@ class Command(BaseCommand):
         print("Started with %s" % symbol if symbol else "no specific symbol (will go over all of them)")
 
         if symbol:
+            rs_which_coins = None
             rs = TickerHistory.objects.filter(symbol=symbol).order_by('-lastUpdated')
+        else:
+            rs_which_coins = Ticker.objects.all().order_by('-rank')
 
-        if rs:
-            for reading in rs:
-                print("%s symbol at %s - %s BTC with %s trading percent" % \
-                      (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, get_day_trading_of_mcap_percent_for_obj(obj=reading)) \
-                      )
+        if rs_which_coins:
+            for rec_coin in rs_which_coins:
+                rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).order_by('-lastUpdated')
+                print_ticker_history_rs_data(rs)
+        else:
+            print_ticker_history_rs_data(rs)
+
+def print_ticker_history_rs_data(rs_TickerHistory):
+    rs = rs_TickerHistory
+    if rs:
+        print("=======================\r\n")
+        for reading in rs:
+            print("%s symbol at %s - %s BTC with %s trading percent" % \
+                  (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, get_day_trading_of_mcap_percent_for_obj(obj=reading)) \
+                  )
 
 
 
