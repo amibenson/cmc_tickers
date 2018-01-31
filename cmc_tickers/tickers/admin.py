@@ -1,7 +1,7 @@
 from django.contrib import admin
 import timeago
 from  tickers.models import *
-from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
+from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent, format_using_humanize
 import datetime
 from django.utils.safestring import mark_safe
 import humanize
@@ -35,10 +35,6 @@ def format_name(obj):
     return  mark_safe('%s (%s)<br><small><a href="https://coinmarketcap.com/currencies/%s/" target=_blank>https://coinmarketcap.com/currencies/%s/</a> (<a href="/admin/tickers/tickerhistory/?q=%s" target=_blank>HF</a>)</small><br>' % (obj.name, obj.symbol, obj.name, obj.name, obj.name ))
 format_name.short_description = 'name'
 format_name.admin_order_field = 'name'
-
-def format_using_humanize(val, format_type):
-    if format_type == humanize.intword:
-        return humanize.intword(val)
 
 
 def format_markedCapUsd(obj):

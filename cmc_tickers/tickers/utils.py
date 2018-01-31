@@ -2,6 +2,12 @@ import timeago
 import datetime
 
 
+import humanize
+
+def format_using_humanize(val, format_type):
+    if format_type == humanize.intword:
+        return humanize.intword(val)
+
 def get_time_ago(date_older, date_newer = datetime.datetime.now()):
     return timeago.format(date_older.replace(tzinfo=None), date_newer.replace(tzinfo=None))
 
