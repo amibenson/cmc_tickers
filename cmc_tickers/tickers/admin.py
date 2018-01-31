@@ -21,7 +21,7 @@ format_time_ago_dateAdded.admin_order_field = 'dateAdded'
 
 
 def format_day_trading_to_market_cap_percent(obj):
-    return  '{0:.2f}'.format(obj.dayVolumeUsd / obj.markedCapUsd * 100) #"%d" % int((obj.dayVolumeUsd / obj.markedCapUsd) * 100)
+    return  '{0:.1f}%'.format(obj.dayVolumeUsd / obj.markedCapUsd * 100) #"%d" % int((obj.dayVolumeUsd / obj.markedCapUsd) * 100)
 format_day_trading_to_market_cap_percent.short_description = 'day trading/mcap'
 format_day_trading_to_market_cap_percent.allow_tags = True
 format_day_trading_to_market_cap_percent.admin_order_field = 'dayVolumeUsd'
@@ -84,7 +84,7 @@ class TickerAdmin(admin.ModelAdmin):
 """
 @admin.register(TickerHistory)
 class TickerHistoryAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name,  'priceBtc', 'priceUsd','markedCapUsd', 'percentChange24h', format_time_ago_lastUpdated)
+    list_display = ('rank', format_name,  'priceBtc', 'priceUsd','markedCapUsd', 'percentChange24h', format_time_ago_lastUpdated, format_day_trading_to_market_cap_percent)
     ordering = ('-lastUpdated', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
