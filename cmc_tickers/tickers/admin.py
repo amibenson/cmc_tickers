@@ -1,7 +1,7 @@
 from django.contrib import admin
 import timeago
 from  tickers.models import *
-from  tickers.utils import * # get_time_ago
+from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import datetime
 from django.utils.safestring import mark_safe
 import humanize

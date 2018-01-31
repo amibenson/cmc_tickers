@@ -1,6 +1,7 @@
 import sys
 from django.core.management.base import BaseCommand
 from  tickers.models import *
+from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 
 
 class Command(BaseCommand):
@@ -24,7 +25,7 @@ class Command(BaseCommand):
 
         if rs:
             for reading in rs:
-                print("%s symbol at %s - %s BTC with %s%% trading percent" % (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, ()))
+                print("%s symbol at %s - %s BTC with %s%% trading percent" % (reading.symbol, get_time_ago(reading.lastUpdated), reading.priceBtc, get_day_trading_of_mcap_percent(reading)))
 
 
 
