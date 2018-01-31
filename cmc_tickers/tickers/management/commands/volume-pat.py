@@ -13,7 +13,7 @@ class Command(BaseCommand):
         #parser.add_argument('--workers-timeout', type=int)
 
     def handle(self, *args, **options):
-        symbol    = str(options['symbol'])
+        symbol = options['symbol']
 
         if symbol:
             symbol = symbol.upper()
