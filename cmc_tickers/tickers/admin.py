@@ -1,6 +1,7 @@
 from django.contrib import admin
 import timeago
 from  tickers.models import *
+from  tickers.utils import * # get_time_ago
 import datetime
 from django.utils.safestring import mark_safe
 import humanize
@@ -8,13 +9,15 @@ import humanize
 #admin.site.register(TickerHistory)
 
 def format_time_ago_lastUpdated(obj):
-    return timeago.format(obj.lastUpdated.replace(tzinfo=None) , datetime.datetime.now().replace(tzinfo=None))
+    return get_time_ago(obj.lastUpdated, datetime.datetime.now())
+    #return timeago.format(obj.lastUpdated.replace(tzinfo=None) , datetime.datetime.now().replace(tzinfo=None))
 format_time_ago_lastUpdated.short_description = 'last Updated'
 format_time_ago_lastUpdated.allow_tags = True
 format_time_ago_lastUpdated.admin_order_field = 'lastUpdated'
 
 def format_time_ago_dateAdded(obj):
-    return timeago.format(obj.dateAdded.replace(tzinfo=None) , datetime.datetime.now().replace(tzinfo=None))
+    return get_time_ago(obj.dateAdded, datetime.datetime.now())
+
 format_time_ago_dateAdded.short_description = 'date Added'
 format_time_ago_dateAdded.allow_tags = True
 format_time_ago_dateAdded.admin_order_field = 'dateAdded'
