@@ -42,6 +42,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
     if rs:
         which_symbol = None
         rank_seen = None
+        mcap_seen = None
         value_seen = None
 
 
@@ -68,12 +69,25 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                     if reading.rank < rank_seen[0]:
                         rank_seen[0] = reading.rank
 
+            if not mcap_seen or reading.markedCapUsd > mcap_seen[1] or reading.markedCapUsd < mcap_seen[0]:
+                if not mcap_seen:
+                    mcap_seen = [reading.markedCapUsd , reading.markedCapUsd]
+                else:
+                    if reading.markedCapUsd > mcap_seen[1]:
+                        mcap_seen[1] = reading.markedCapUsd
+
+                    if reading.markedCapUsd < mcap_seen[0]:
+                        mcap_seen[0] = reading.markedCapUsd
+
 
         if flt_max_24h_trading_volume_to_mcad_seen != None and alert_trading_volume_percent_th != None and \
            flt_max_24h_trading_volume_to_mcad_seen > float(alert_trading_volume_percent_th):
             print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
-        print("=======================\r\nSummray for %s:\r\nRank: %s to %s\r\n" % (which_symbol, rank_seen[0], rank_seen[1]))
+        print("=======================\r\n"\
+                "Summray for %s:\r\n"\
+                "Rank: %s - %s (%s)\r\n"\
+                "MCAP: %s - %s (%s)\r\n"\ % (which_symbol, rank_seen[0], rank_seen[1], rs[0].rank, format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword)))
 
 
 
