@@ -84,10 +84,11 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
            flt_max_24h_trading_volume_to_mcad_seen > float(alert_trading_volume_percent_th):
             print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
-        print("=======================\r\n"\
-                "Summray for %s:\r\n"\
-                "Rank: %s - %s (%s)\r\n"\
-                "MCAP: %s - %s (%s)\r\n"\ % (which_symbol, rank_seen[0], rank_seen[1], rs[0].rank, format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword)))
+        print("=======================\r\n"
+                "Summray for %s:\r\n"
+                "Rank: %s - %s (%s)\r\n"
+                "MCAP: %s - %s (%s)\r\n" %
+                (which_symbol, rank_seen[0], rank_seen[1], rs[0].rank, format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword)))
 
 
 
