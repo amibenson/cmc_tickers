@@ -40,6 +40,11 @@ class Command(BaseCommand):
 def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_th = None):
     rs = rs_TickerHistory
     if rs:
+        which_symbol = None
+        rank_seen = None
+        value_seen = None
+
+
         flt_max_24h_trading_volume_to_mcad_seen = None
         print("=======================\r\n")
         for reading in rs:
@@ -50,11 +55,25 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
             if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen < float(s_percent.replace('%', '')):
                 flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', ''))
 
+            if not which_symbol:
+                which_symbol = reading.symbol
+
+            if not rank_seen or reading.rank > rank_seen[1] or reading.rank < rank_seen[0]:
+                if not rank_seen
+                    rank_seen = (reading.rank , reading.rank )
+                else:
+                    if reading.rank > rank_seen[1]:
+                        rank_seen[1] = reading.rank
+
+                    if reading.rank < rank_seen[0]:
+                        rank_seen[0] = reading.rank
+
+
         if flt_max_24h_trading_volume_to_mcad_seen != None and alert_trading_volume_percent_th != None and \
            flt_max_24h_trading_volume_to_mcad_seen > float(alert_trading_volume_percent_th):
             print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
-        print("=======================\r\n")
+        print("=======================\r\nSummray for %s:\r\nRank: %s to %s\r\n" % (which_symbol, rank_seen[0], rank_seen[1]))
 
 
 
