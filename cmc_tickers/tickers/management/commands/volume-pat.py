@@ -44,7 +44,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         rank_seen = None
         mcap_seen = None
         value_seen = None
-
+        trading24tomcap = None
 
         flt_max_24h_trading_volume_to_mcad_seen = None
         print("=======================\r\n")
@@ -58,7 +58,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
 
             if not which_symbol:
                 which_symbol = reading.symbol
-
+            # rank
             if not rank_seen or reading.rank > rank_seen[1] or reading.rank < rank_seen[0]:
                 if not rank_seen:
                     rank_seen = [reading.rank , reading.rank]
@@ -69,6 +69,18 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                     if reading.rank < rank_seen[0]:
                         rank_seen[0] = reading.rank
 
+            # 24h trading / mcap
+            if not trading24tomcap or float(s_percent.replace('%', '')) > trading24tomcap[1] or float(s_percent.replace('%', '')) < trading24tomcap[0]:
+                if not trading24tomcap:
+                    trading24tomcap = [float(s_percent.replace('%', '')) , float(s_percent.replace('%', ''))]
+                else:
+                    if float(s_percent.replace('%', '')) > trading24tomcap[1]:
+                        trading24tomcap[1] = float(s_percent.replace('%', ''))
+
+                    if float(s_percent.replace('%', '')) < trading24tomcap[0]:
+                        trading24tomcap[0] = float(s_percent.replace('%', ''))
+
+            # mcap
             if not mcap_seen or reading.markedCapUsd > mcap_seen[1] or reading.markedCapUsd < mcap_seen[0]:
                 if not mcap_seen:
                     mcap_seen = [reading.markedCapUsd , reading.markedCapUsd]
@@ -84,11 +96,17 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
            flt_max_24h_trading_volume_to_mcad_seen > float(alert_trading_volume_percent_th):
             print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
+
         print("=======================\r\n"
                 "Summray for %s:\r\n"
                 "Rank: %s - %s (%s)\r\n"
-                "MCAP: %s - %s (%s)\r\n" %
-                (which_symbol, rank_seen[0], rank_seen[1], rs[0].rank, format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword)))
+                "MCAP: %s - %s (%s)\r\n"
+                "24h Trading / MCAP: %s%% - %s%% (%s)\r\n" %
+                (which_symbol,
+                 rank_seen[0], rank_seen[1], rs[0].rank,
+                 format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword),
+                 round(trading24tomcap[0],1), round(trading24tomcap[1],1), get_day_trading_of_mcap_percent_for_obj(obj=reading[0]))
+              )
 
 
 
