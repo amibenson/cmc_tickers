@@ -60,7 +60,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
 
             if not rank_seen or reading.rank > rank_seen[1] or reading.rank < rank_seen[0]:
                 if not rank_seen:
-                    rank_seen = (reading.rank , reading.rank )
+                    rank_seen = [reading.rank , reading.rank]
                 else:
                     if reading.rank > rank_seen[1]:
                         rank_seen[1] = reading.rank
