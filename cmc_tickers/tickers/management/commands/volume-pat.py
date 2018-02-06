@@ -114,16 +114,20 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
            flt_max_24h_trading_volume_to_mcad_seen > float(alert_trading_volume_percent_th):
             print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
+        rank_most_recent_or_now = rs[0].rank
+        rank_oldest_logged = rs[len(rs)-1].rank
 
         print("=======================\r\n"
                 "Summray for %s:\r\n"
                 "Rank: %s - %s (%s)\r\n"
                 "MCAP: %s - %s (%s)\r\n"
-                "24h Trading / MCAP: %s%% - %s%% (%s)\r\n" %
+                "24h Trading / MCAP: %s%% - %s%% (%s)\r\n"
+                "%s"%
                 (which_symbol,
                  rank_seen[0], rank_seen[1], rs[0].rank,
                  format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword),
-                 round(trading24tomcap[0],1), round(trading24tomcap[1],1), get_day_trading_of_mcap_percent_for_obj(obj=rs[0]))
+                 round(trading24tomcap[0],1), round(trading24tomcap[1],1), get_day_trading_of_mcap_percent_for_obj(obj=rs[0])),
+                 ("Hey, rank increase is %s%%" % (int((rank_most_recent_or_now - rank_oldest_logged) / rank_most_recent_or_now * 100))) if rank_most_recent_or_now > rank_oldest_logged and int((rank_most_recent_or_now - rank_oldest_logged) / rank_most_recent_or_now * 100) > 5 else ""
               )
 
 
