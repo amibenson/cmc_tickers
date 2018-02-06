@@ -117,7 +117,10 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         rank_most_recent_or_now = rs[0].rank
         rank_oldest_logged = rs[len(rs)-1].rank
 
-        s_alert_rise_in_rank = ("Hey, rank increase is %s%%" % (int((rank_most_recent_or_now - rank_oldest_logged) / rank_most_recent_or_now * 100))) if rank_most_recent_or_now > rank_oldest_logged and int((rank_most_recent_or_now - rank_oldest_logged) / rank_most_recent_or_now * 100) > 5 else ""
+
+
+        s_alert_rise_in_rank = ("Hey, rank rise is %s%%" % (int((rank_most_recent_or_now - rank_oldest_logged) / rank_most_recent_or_now * 100))) if  rank_oldest_logged > rank_most_recent_or_now and int((rank_most_recent_or_now - rank_oldest_logged) / rank_most_recent_or_now * 100) > 5 else ""
+
 
         print("=======================\r\n"
                 "Summray for %s:\r\n"
