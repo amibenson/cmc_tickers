@@ -33,7 +33,7 @@ class Ticker(models.Model):
     lastAnalyzed = models.DateTimeField(default=django.utils.timezone.now)
 
     def __str__(self):
-        return self.name
+        return "%s - %s" % (self.symbol, self.name)
 
 
 class TickerHistory(models.Model):
