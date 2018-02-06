@@ -121,7 +121,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         if  rank_oldest_logged > rank_most_recent_or_now:
             percent_rank_rise = int((rank_oldest_logged - rank_most_recent_or_now ) / rank_oldest_logged * 100)
             if  percent_rank_rise > 5:
-                s_alert_rise_in_rank = ("Hey, rank rise is %s%%\r\n" % percent_rank_rise
+                s_alert_rise_in_rank = "Hey, rank rise is %s%%\r\n" % percent_rank_rise
 
 
 
