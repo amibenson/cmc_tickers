@@ -39,11 +39,11 @@ class Command(BaseCommand):
             for rec_coin in rs_which_coins:
                 rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).order_by('-lastUpdated')
                 if len(rs)>MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH:
-                    print_ticker_history_rs_data(rs)
+                    self.print_ticker_history_rs_data(rs)
                 else:
                     print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, len(rs)))
         else:
-            print_ticker_history_rs_data(rs)
+            self.print_ticker_history_rs_data(rs)
 
     def print_ticker_history_rs_data(rs_TickerHistory):
         rs = rs_TickerHistory
