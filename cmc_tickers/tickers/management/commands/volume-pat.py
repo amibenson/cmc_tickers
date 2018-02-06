@@ -45,7 +45,7 @@ class Command(BaseCommand):
         else:
             self.print_ticker_history_rs_data(rs)
 
-    def print_ticker_history_rs_data(rs_TickerHistory):
+    def print_ticker_history_rs_data(self, rs_TickerHistory):
         rs = rs_TickerHistory
         if rs:
             which_symbol = None
