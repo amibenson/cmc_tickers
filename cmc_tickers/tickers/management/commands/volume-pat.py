@@ -37,7 +37,7 @@ class Command(BaseCommand):
                 if len(rs)>MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH:
                     print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
                 else:
-                    print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, en(rs)))
+                    print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, len(rs)))
         else:
             print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
 
