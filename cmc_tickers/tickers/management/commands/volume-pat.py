@@ -50,6 +50,8 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         SHOW_X_TICKER_READINGS = 10
 
         print_reading_modulo = int(count_available_ticker_readings / SHOW_X_TICKER_READINGS)
+        print("count_available_ticker_readings: %s" % count_available_ticker_readings)
+        print("print_reading_modulo: %s" % print_reading_modulo)
 
         flt_max_24h_trading_volume_to_mcad_seen = None
         print("=======================\r\n")
