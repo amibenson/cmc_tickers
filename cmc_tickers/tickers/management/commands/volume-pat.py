@@ -5,20 +5,24 @@ from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import humanize
 
 class Command(BaseCommand):
+
     help = 'Find ticker with increasing/decreasing volume patterns.'
 
     def add_arguments(self, parser):
         #parser.add_argument('-w', '--workers', type=int, default=1, help='number of workers.')
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
         parser.add_argument('-t', '--alertt', type=int, default=10, help='Alert when 24 volume / mcap above 10')
+        parser.add_argument('-r', '--alertrrp', type=int, default=10, help='Alert rank rise percent')
         #parser.add_argument('--workers-timeout', type=int)
 
     def handle(self, *args, **options):
         symbol = options['symbol']
-        alert_trading_volume_percent_th = float(options['alertt'])
+        self.alert_trading_volume_percent_th = float(options['alertt'])
+        self.alert_rank_rise_percent_th = int(options['alertrrp'])
 
         print("Started with symbol: %s" % (symbol))
-        print("Started with alert_trading_volume_percent_th: %s" % (alert_trading_volume_percent_th))
+        print("Started with alert_trading_volume_percent_th: %s" % (self.alert_trading_volume_percent_th))
+        print("Started with alert_rank_rise_percent_th: %s" % (self.alert_rank_rise_percent_th))
         if symbol:
             symbol = symbol.upper()
 
@@ -35,13 +39,13 @@ class Command(BaseCommand):
             for rec_coin in rs_which_coins:
                 rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).order_by('-lastUpdated')
                 if len(rs)>MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH:
-                    print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
+                    print_ticker_history_rs_data(rs, self.alert_trading_volume_percent_th)
                 else:
                     print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, len(rs)))
         else:
-            print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
+            print_ticker_history_rs_data(rs, self.alert_trading_volume_percent_th)
 
-def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_th = None):
+def print_ticker_history_rs_data(rs_TickerHistory):
     rs = rs_TickerHistory
     if rs:
         which_symbol = None
@@ -58,6 +62,7 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         print("print_reading_modulo: %s" % print_reading_modulo)
 
         flt_max_24h_trading_volume_to_mcad_seen = None
+        i_alert_rise_in_rank_count=0
         print("=======================\r\n")
         for indx_of_available_reading, reading in enumerate(rs):
             s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
@@ -110,8 +115,8 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
                         mcap_seen[0] = reading.markedCapUsd
 
 
-        if flt_max_24h_trading_volume_to_mcad_seen != None and alert_trading_volume_percent_th != None and \
-           flt_max_24h_trading_volume_to_mcad_seen > float(alert_trading_volume_percent_th):
+        if flt_max_24h_trading_volume_to_mcad_seen != None and self.alert_trading_volume_percent_th != None and \
+           flt_max_24h_trading_volume_to_mcad_seen > float(self.alert_trading_volume_percent_th):
             print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
         rank_most_recent_or_now = rs[0].rank
@@ -120,10 +125,12 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         s_alert_rise_in_rank = ""
         if  rank_oldest_logged > rank_most_recent_or_now:
             percent_rank_rise = int((rank_oldest_logged - rank_most_recent_or_now ) / rank_oldest_logged * 100)
-            if  percent_rank_rise > 5:
-                s_alert_rise_in_rank = "Hey, rank rise is %s%%\r\n" % percent_rank_rise
+            if  percent_rank_rise > self.alert_rank_rise_percent_th:
+                s_alert_rise_in_rank = "%d) Hey, rank rise is %s%% from rank %s to rank %s\r\n" % (i_alert_rise_in_rank_count+1, percent_rank_rise, rank_oldest_logged, rank_most_recent_or_now)
 
 
+        if s_alert_rise_in_rank != "":
+            i_alert_rise_in_rank_count += 1
 
         print("=======================\r\n"
                 "Summray for %s:\r\n"
