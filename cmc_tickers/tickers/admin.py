@@ -32,12 +32,12 @@ format_day_trading_to_market_cap_percent.admin_order_field = 'dayVolumeUsd'
 
 # https://coinmarketcap.com/currencies/iostoken/
 def format_name(obj):
-    return  mark_safe('%s (%s)<br>"\
-                    "<small>"\
-                    "<a href="https://coinmarketcap.com/currencies/%s/" target=_blank>https://coinmarketcap.com/currencies/%s/</a>"\
-                    "(<a href="/admin/tickers/tickerhistory/?q=%s" target=_blank>HF</a>)"\
-                    "(<a href="https://www.tradingview.com/symbols/%sBTC/" target=_blank>TV</a>)"\
-                    "</small><br>' %
+    return  mark_safe('%s (%s)<br>'\
+                    '<small>'\
+                    '<a href="https://coinmarketcap.com/currencies/%s/" target=_blank>https://coinmarketcap.com/currencies/%s/</a>'\
+                    '(<a href="/admin/tickers/tickerhistory/?q=%s" target=_blank>HF</a>)'\
+                    '(<a href="https://www.tradingview.com/symbols/%sBTC/" target=_blank>TV</a>)'\
+                    '</small><br>' %
                     (obj.name, obj.symbol, str(obj.name).lower().replace(" ", "-"), str(obj.name).lower().replace(" ", "-"), obj.name, obj.symbol.upper() ))
 
 format_name.short_description = 'name'
