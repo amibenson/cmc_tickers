@@ -31,9 +31,13 @@ class Command(BaseCommand):
             rs_which_coins = Ticker.objects.all().order_by('-rank')
 
         if rs_which_coins:
+            MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH = 100
             for rec_coin in rs_which_coins:
                 rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).order_by('-lastUpdated')
-                print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
+                if len(rs)>MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH:
+                    print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
+                else:
+                    print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, en(rs)))
         else:
             print_ticker_history_rs_data(rs, alert_trading_volume_percent_th)
 
