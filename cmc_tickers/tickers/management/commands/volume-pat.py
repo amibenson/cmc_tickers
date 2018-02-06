@@ -46,13 +46,25 @@ def print_ticker_history_rs_data(rs_TickerHistory, alert_trading_volume_percent_
         value_seen = None
         trading24tomcap = None
 
+        count_available_ticker_readings = len(rs)
+        SHOW_X_TICKER_READINGS = 10
+
+        print_reading_modulo = int(count_available_ticker_readings / SHOW_X_TICKER_READINGS)
+
         flt_max_24h_trading_volume_to_mcad_seen = None
         print("=======================\r\n")
-        for reading in rs:
+        for indx_of_available_reading, reading in enumerate(rs):
             s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
-            print("%s symbol ticker was read %s, rank #%s, value %s BTC (%s%% daily change) with %s trading percent (MCAP: %s)" % \
-                  (reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword)) \
-                  )
+
+            current_available_reading_percent_in_available_period = int(indx_of_available_reading / 100 * count_available_ticker_readings)
+            if current_available_reading_percent_in_available_period % SHOW_X_TICKER_READINGS == 0:
+                s_displayed_percent_reading_in_period = current_available_reading_percent_in_available_period
+
+            if indx_of_available_reading % print_reading_modulo == 0:
+                print("%s%% - %s symbol ticker was read %s, rank #%s, value %s BTC (%s%% daily change) with %s trading percent (MCAP: %s)" % \
+                      (s_displayed_percent_reading_in_period, reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword)) \
+                      )
+
             if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen < float(s_percent.replace('%', '')):
                 flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', ''))
 
