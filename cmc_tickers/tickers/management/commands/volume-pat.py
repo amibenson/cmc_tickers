@@ -43,7 +43,7 @@ class Command(BaseCommand):
                 else:
                     print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, len(rs)))
         else:
-            print_ticker_history_rs_data(rs, self.alert_trading_volume_percent_th)
+            print_ticker_history_rs_data(rs)
 
 def print_ticker_history_rs_data(rs_TickerHistory):
     rs = rs_TickerHistory
