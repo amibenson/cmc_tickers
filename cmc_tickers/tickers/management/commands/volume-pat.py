@@ -11,13 +11,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         #parser.add_argument('-w', '--workers', type=int, default=1, help='number of workers.')
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
-        parser.add_argument('-t', '--alertt', type=int, default=10, help='Alert when 24 volume / mcap above 10')
+        parser.add_argument('-t', '--alerttp', type=int, default=10, help='Alert when 24 volume / mcap percent above')
         parser.add_argument('-r', '--alertrrp', type=int, default=10, help='Alert rank rise percent')
         #parser.add_argument('--workers-timeout', type=int)
 
     def handle(self, *args, **options):
         symbol = options['symbol']
-        self.alert_trading_volume_percent_th = float(options['alertt'])
+        self.alert_trading_volume_percent_th = int(options['alerttp'])
         self.alert_rank_rise_percent_th = int(options['alertrrp'])
 
         print("Started with symbol: %s" % (symbol))
@@ -116,7 +116,7 @@ class Command(BaseCommand):
 
 
             if flt_max_24h_trading_volume_to_mcad_seen != None and self.alert_trading_volume_percent_th != None and \
-               flt_max_24h_trading_volume_to_mcad_seen > float(self.alert_trading_volume_percent_th):
+               int(flt_max_24h_trading_volume_to_mcad_seen) > self.alert_trading_volume_percent_th:
                 print("-- ALERT %s 24h trading / mcap" % (flt_max_24h_trading_volume_to_mcad_seen))
 
             rank_most_recent_or_now = rs[0].rank
