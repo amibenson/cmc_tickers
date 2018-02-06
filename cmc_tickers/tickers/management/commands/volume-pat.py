@@ -19,6 +19,7 @@ class Command(BaseCommand):
         symbol = options['symbol']
         self.alert_trading_volume_percent_th = int(options['alerttp'])
         self.alert_rank_rise_percent_th = int(options['alertrrp'])
+        self.i_alert_rise_in_rank_count=0
 
         print("Started with symbol: %s" % (symbol))
         print("Started with alert_trading_volume_percent_th: %s" % (self.alert_trading_volume_percent_th))
@@ -62,7 +63,7 @@ class Command(BaseCommand):
             print("print_reading_modulo: %s" % print_reading_modulo)
 
             flt_max_24h_trading_volume_to_mcad_seen = None
-            i_alert_rise_in_rank_count=0
+
             print("=======================\r\n")
             for indx_of_available_reading, reading in enumerate(rs):
                 s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
@@ -126,11 +127,11 @@ class Command(BaseCommand):
             if  rank_oldest_logged > rank_most_recent_or_now:
                 percent_rank_rise = int((rank_oldest_logged - rank_most_recent_or_now ) / rank_oldest_logged * 100)
                 if  percent_rank_rise > self.alert_rank_rise_percent_th:
-                    s_alert_rise_in_rank = "%d) Hey, rank rise is %s%% from rank %s to rank %s\r\n" % (i_alert_rise_in_rank_count+1, percent_rank_rise, rank_oldest_logged, rank_most_recent_or_now)
+                    s_alert_rise_in_rank = "%d) Hey, rank rise is %s%% from rank %s to rank %s\r\n" % (self.i_alert_rise_in_rank_count+1, percent_rank_rise, rank_oldest_logged, rank_most_recent_or_now)
 
 
             if s_alert_rise_in_rank != "":
-                i_alert_rise_in_rank_count += 1
+                self.i_alert_rise_in_rank_count += 1
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"

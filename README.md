@@ -33,3 +33,5 @@ cd cmc_tickers/ && python manage.py  volume-pat --alertt 25
 Every coin with at least 100 readings (3-4 days monitoring) - see
 
 QUN - 389 to 306 within 6 days, show maximum of 10 readings to show progress.
+
+Save every new day any new alert we see "Rise Rank above x%", from x to y
