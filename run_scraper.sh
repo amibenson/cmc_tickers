@@ -4,4 +4,4 @@
 sleep 60
 
 cd webscraper
-python cmc_ticker.py --s http://web:8000 --t 500
+python cmc_ticker.py --s http://web:8000 --t 1200
