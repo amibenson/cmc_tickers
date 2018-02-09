@@ -70,5 +70,5 @@ class TickerHistoryAdmin(admin.ModelAdmin):
     list_display = ('rank', format_name,  'priceBtc', 'priceUsd', format_dayVolumeUsd,  'percentChange24h', format_markedCapUsd, format_time_ago_lastUpdated, format_day_trading_to_market_cap_percent)
     ordering = ('-lastUpdated', )
     list_filter = ('symbol',)
-    search_fields = ['name', 'symbol' ]
+    search_fields = [ 'symbol' ]
     list_per_page = 500
