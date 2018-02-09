@@ -151,8 +151,11 @@ class Command(BaseCommand):
                     "%s"%
                     (which_symbol,
                      rank_seen[0], rank_seen[1], rs[0].rank,
-                     format_using_humanize(mcap_seen[0], humanize.intword), format_using_humanize(mcap_seen[1], humanize.intword), format_using_humanize(rs[0].markedCapUsd, humanize.intword),
-                     round(trading24tomcap[0],1), round(trading24tomcap[1],1), get_day_trading_of_mcap_percent_for_obj(obj=rs[0]),
+                     format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
+                     format_using_humanize(rs[0].markedCapUsd, humanize.intword),
+                     round(trading24tomcap[0],1) if trading24tomcap != None else None,
+                     round(trading24tomcap[1],1) if trading24tomcap != None else None,
+                     get_day_trading_of_mcap_percent_for_obj(obj=rs[0]),
                      s_alert_rise_in_rank
                      )
                   )
