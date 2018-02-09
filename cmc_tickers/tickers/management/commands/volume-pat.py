@@ -5,7 +5,7 @@ from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import humanize
 
 class Command(BaseCommand):
-
+    MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH = 100
     help = 'Find ticker with increasing/decreasing volume patterns.'
 
     def add_arguments(self, parser):
@@ -13,12 +13,14 @@ class Command(BaseCommand):
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
         parser.add_argument('-t', '--alerttp', type=int, default=10, help='Alert when 24 volume / mcap percent above')
         parser.add_argument('-r', '--alertrrp', type=int, default=10, help='Alert rank rise percent')
+        parser.add_argument('-mr', '--minreads', type=int, default=self.MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH, help='minimum readings to even start analyze a coin')
         #parser.add_argument('--workers-timeout', type=int)
 
     def handle(self, *args, **options):
         symbol = options['symbol']
         self.alert_trading_volume_percent_th = int(options['alerttp'])
         self.alert_rank_rise_percent_th = int(options['alertrrp'])
+        self.minimum_readings_to_analyze_coin = int(options['minreads'])
         self.i_alert_rise_in_rank_count=0
 
         print("Started with symbol: %s" % (symbol))
@@ -36,13 +38,13 @@ class Command(BaseCommand):
             rs_which_coins = Ticker.objects.all().order_by('-rank')
 
         if rs_which_coins:
-            MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH = 100
+
             for rec_coin in rs_which_coins:
                 rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).order_by('-lastUpdated')
-                if len(rs)>MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH:
+                if len(rs)>self.minimum_readings_to_analyze_coin:
                     self.print_ticker_history_rs_data(rs)
                 else:
-                    print("== Skipping %s with %s readings in total\r\n" % (rec_coin.symbol, len(rs)))
+                    print("== Skipping %s with %s readings in total (min: %s)\r\n" % (rec_coin.symbol, len(rs), self.minimum_readings_to_analyze_coin))
         else:
             self.print_ticker_history_rs_data(rs)
 
