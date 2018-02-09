@@ -79,7 +79,7 @@ class Command(BaseCommand):
                           (s_displayed_percent_reading_in_period, reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword)) \
                           )
 
-                if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen < float(s_percent.replace('%', '')):
+                if (flt_max_24h_trading_volume_to_mcad_seen == None and s_percent != None) or flt_max_24h_trading_volume_to_mcad_seen < float(s_percent.replace('%', '')):
                     flt_max_24h_trading_volume_to_mcad_seen = float(s_percent.replace('%', ''))
 
                 if not which_symbol:
