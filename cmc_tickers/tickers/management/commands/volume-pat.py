@@ -127,8 +127,8 @@ class Command(BaseCommand):
             if  rank_oldest_logged > rank_most_recent_or_now:
                 percent_rank_rise = int((rank_oldest_logged - rank_most_recent_or_now ) / rank_oldest_logged * 100)
                 if  percent_rank_rise > self.alert_rank_rise_percent_th:
-                    s_alert_rise_in_rank = "%d) Hey, %s rank rise is %s%% from rank %s to rank %s\r\n" % \
-                        (self.i_alert_rise_in_rank_count+1, reading, percent_rank_rise, rank_oldest_logged, rank_most_recent_or_now)
+                    s_alert_rise_in_rank = "%d) Hey, %s rank rises from rank #%s to rank #%s (+%s positions - %s%%)\r\n" % \
+                        (self.i_alert_rise_in_rank_count+1, reading, rank_oldest_logged, rank_most_recent_or_now, rank_oldest_logged - rank_most_recent_or_now, percent_rank_rise)
 
 
             if s_alert_rise_in_rank != "":
