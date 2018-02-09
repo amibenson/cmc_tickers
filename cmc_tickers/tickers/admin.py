@@ -39,8 +39,8 @@ def format_name(obj):
                     '(<a href="/admin/tickers/tickerhistory/?q=%s" target=_blank>HF</a>)'\
                     '&nbsp;&nbsp;'\
                     '(<a href="https://www.tradingview.com/symbols/%sBTC/" target=_blank>TV</a>)'\
-                    '</small><br>' %
-                    (obj.name, obj.symbol, str(obj.name).lower().replace(" ", "-"), str(obj.name).lower().replace(" ", "-"), obj.tickerId, obj.symbol.upper() ))
+                    '</small><br><i>%s</i>' %
+                    (obj.name, obj.symbol, str(obj.name).lower().replace(" ", "-"), str(obj.name).lower().replace(" ", "-"), obj.symbol.upper(), obj.symbol.upper(), obj.tickerId ))
 
 format_name.short_description = 'name'
 format_name.admin_order_field = 'name'
