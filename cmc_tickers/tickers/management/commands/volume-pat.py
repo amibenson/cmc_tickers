@@ -101,15 +101,16 @@ class Command(BaseCommand):
                             rank_seen[0] = reading.rank
 
                 # 24h trading / mcap
-                if not trading24tomcap or fl_percent > trading24tomcap[1] or fl_percent < trading24tomcap[0]:
-                    if not trading24tomcap:
-                        trading24tomcap = [fl_percent , fl_percent]
-                    else:
-                        if fl_percent > trading24tomcap[1]:
-                            trading24tomcap[1] = fl_percent
+                if fl_percent != None:
+                    if not trading24tomcap or fl_percent > trading24tomcap[1] or fl_percent < trading24tomcap[0]:
+                        if not trading24tomcap:
+                            trading24tomcap = [fl_percent , fl_percent]
+                        else:
+                            if fl_percent > trading24tomcap[1]:
+                                trading24tomcap[1] = fl_percent
 
-                        if fl_percent < trading24tomcap[0]:
-                            trading24tomcap[0] = fl_percent
+                            if fl_percent < trading24tomcap[0]:
+                                trading24tomcap[0] = fl_percent
 
                 # mcap
                 if not mcap_seen or reading.markedCapUsd > mcap_seen[1] or reading.markedCapUsd < mcap_seen[0]:
