@@ -113,15 +113,16 @@ class Command(BaseCommand):
                                 trading24tomcap[0] = fl_percent
 
                 # mcap
-                if not mcap_seen or reading.markedCapUsd > mcap_seen[1] or reading.markedCapUsd < mcap_seen[0]:
-                    if not mcap_seen:
-                        mcap_seen = [reading.markedCapUsd , reading.markedCapUsd]
-                    else:
-                        if reading.markedCapUsd > mcap_seen[1]:
-                            mcap_seen[1] = reading.markedCapUsd
+                if reading.markedCapUsd != None:
+                    if not mcap_seen or reading.markedCapUsd > mcap_seen[1] or reading.markedCapUsd < mcap_seen[0]:
+                        if not mcap_seen:
+                            mcap_seen = [reading.markedCapUsd , reading.markedCapUsd]
+                        else:
+                            if reading.markedCapUsd > mcap_seen[1]:
+                                mcap_seen[1] = reading.markedCapUsd
 
-                        if reading.markedCapUsd < mcap_seen[0]:
-                            mcap_seen[0] = reading.markedCapUsd
+                            if reading.markedCapUsd < mcap_seen[0]:
+                                mcap_seen[0] = reading.markedCapUsd
 
 
             if flt_max_24h_trading_volume_to_mcad_seen != None and self.alert_trading_volume_percent_th != None and \
