@@ -40,7 +40,7 @@ def format_name(obj):
                     '&nbsp;&nbsp;'\
                     '(<a href="https://www.tradingview.com/symbols/%sBTC/" target=_blank>TV</a>)'\
                     '</small><br>' %
-                    (obj.name, obj.symbol, str(obj.name).lower().replace(" ", "-"), str(obj.name).lower().replace(" ", "-"), obj.symbol, obj.symbol.upper() ))
+                    (obj.name, obj.symbol, str(obj.name).lower().replace(" ", "-"), str(obj.name).lower().replace(" ", "-"), obj.tickerId, obj.symbol.upper() ))
 
 format_name.short_description = 'name'
 format_name.admin_order_field = 'name'
@@ -71,6 +71,6 @@ class TickerAdmin(admin.ModelAdmin):
 class TickerHistoryAdmin(admin.ModelAdmin):
     list_display = ('rank', format_name,  'priceBtc', 'priceUsd', format_dayVolumeUsd,  'percentChange24h', format_markedCapUsd, format_time_ago_lastUpdated, format_day_trading_to_market_cap_percent)
     ordering = ('-lastUpdated', )
-    list_filter = ('symbol',)
+    list_filter = ('symbol', 'tickerId')
     search_fields = [ 'symbol' ]
     list_per_page = 500
