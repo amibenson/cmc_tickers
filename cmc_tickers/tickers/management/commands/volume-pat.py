@@ -76,7 +76,7 @@ class Command(BaseCommand):
                     fl_percent = None
 
                 current_available_reading_percent_in_available_period = int((indx_of_available_reading / count_available_ticker_readings) * 100)
-                if current_available_reading_percent_in_available_period % SHOW_X_TICKER_READINGS == 0:
+                if current_available_reading_percent_in_available_period % SHOW_X_TICKER_READINGS == 0 or indx_of_available_reading == len(rs):
                     s_displayed_percent_reading_in_period = current_available_reading_percent_in_available_period
 
                 if indx_of_available_reading % print_reading_modulo == 0 and s_displayed_percent_reading_in_period != s_prev_displayed_percent_reading_in_period:
