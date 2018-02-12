@@ -66,7 +66,7 @@ class Command(BaseCommand):
             print("print_reading_modulo: %s" % print_reading_modulo)
 
             flt_max_24h_trading_volume_to_mcad_seen = None
-
+            #
             print("=======================\r\n")
             for indx_of_available_reading, reading in enumerate(rs):
                 s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
