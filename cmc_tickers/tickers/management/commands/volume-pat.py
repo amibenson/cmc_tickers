@@ -54,7 +54,7 @@ class Command(BaseCommand):
             which_symbol = None
             rank_seen = None
             mcap_seen = None
-            value_seen = None
+            value_btc_seen = None
             trading24tomcap = None
 
             count_available_ticker_readings = len(rs)
@@ -99,6 +99,16 @@ class Command(BaseCommand):
 
                         if reading.rank < rank_seen[0]:
                             rank_seen[0] = reading.rank
+                # value
+                if not value_btc_seen or reading.priceBtc > value_btc_seen[1] or reading.priceBtc < value_btc_seen[0]:
+                    if not value_btc_seen:
+                        value_btc_seen = [reading.priceBtc , reading.priceBtc]
+                    else:
+                        if reading.priceBtc > value_btc_seen[1]:
+                            value_btc_seen[1] = reading.priceBtc
+
+                        if reading.priceBtc < value_btc_seen[0]:
+                            value_btc_seen[0] = reading.priceBtc
 
                 # 24h trading / mcap
                 if fl_percent != None:
@@ -145,12 +155,14 @@ class Command(BaseCommand):
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
-                    "Rank: %s - %s (%s)\r\n"
-                    "MCAP: %s - %s (%s)\r\n"
+                    "Rank: #%s - #%s (current rank: #%s)\r\n"
+                    "Value: %s - %s BTC (current value: %s BTC)\r\n"
+                    "MCAP: %s - %s (current Market Cap: %s)\r\n"
                     "24h Trading / MCAP: %s%% - %s%% (%s)\r\n"
                     "%s"%
                     (which_symbol,
                      rank_seen[0], rank_seen[1], rs[0].rank,
+                     value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc,
                      format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
                      format_using_humanize(rs[0].markedCapUsd, humanize.intword),
                      round(trading24tomcap[0],1) if trading24tomcap != None else None,
