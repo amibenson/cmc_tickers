@@ -182,7 +182,7 @@ class Command(BaseCommand):
                     "Rank: #%s - #%s (latest rank: #%s)\r\n"
                     "Value: %s - %s BTC (latest value: %s BTC)\r\n"
                     "MCAP: %s - %s (latest Market Cap: %s)\r\n"
-                    "24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s%%, Avg. Trading / MCAP: %s%% from %d readings)\r\n"
+                    "24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings)\r\n"
                     "%s"%
                     (which_symbol,
                      rank_seen[0], rank_seen[1], rs[0].rank,
