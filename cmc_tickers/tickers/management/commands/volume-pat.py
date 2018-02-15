@@ -152,8 +152,13 @@ class Command(BaseCommand):
             if  rank_oldest_logged > rank_most_recent_or_now:
                 percent_rank_rise = int((rank_oldest_logged - rank_most_recent_or_now ) / rank_oldest_logged * 100)
                 if  percent_rank_rise > self.alert_rank_rise_percent_th:
-                    s_alert_rise_in_rank = "%d) Hey, %s rank rises from rank #%s to rank #%s (+%s positions - %s%%)\r\n" % \
-                        (self.i_alert_rise_in_rank_count+1, reading, rank_oldest_logged, rank_most_recent_or_now, rank_oldest_logged - rank_most_recent_or_now, percent_rank_rise)
+
+                    s_detection_word = "Hey"
+                    if round(trading24tomcap[0],1) > 7.5 or round(trading24tomcap[1],1) > 7.5 :
+                        s_detection_word = "Perfect"
+
+                    s_alert_rise_in_rank = "%d) %s, %s rank rises from rank #%s to rank #%s (+%s positions - %s%%)\r\n" % \
+                        (self.i_alert_rise_in_rank_count+1, s_detection_word, reading, rank_oldest_logged, rank_most_recent_or_now, rank_oldest_logged - rank_most_recent_or_now, percent_rank_rise)
 
 
             if s_alert_rise_in_rank != "":
@@ -161,10 +166,10 @@ class Command(BaseCommand):
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
-                    "Rank: #%s - #%s (current rank: #%s)\r\n"
-                    "Value: %s - %s BTC (current value: %s BTC)\r\n"
-                    "MCAP: %s - %s (current Market Cap: %s)\r\n"
-                    "24h Trading / MCAP: %s%% - %s%% (%s)\r\n"
+                    "Rank: #%s - #%s (latest rank: #%s)\r\n"
+                    "Value: %s - %s BTC (latest value: %s BTC)\r\n"
+                    "MCAP: %s - %s (latest Market Cap: %s)\r\n"
+                    "24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s)\r\n"
                     "%s"%
                     (which_symbol,
                      rank_seen[0], rank_seen[1], rs[0].rank,
