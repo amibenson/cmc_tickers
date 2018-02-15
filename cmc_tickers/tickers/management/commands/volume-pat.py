@@ -170,7 +170,7 @@ class Command(BaseCommand):
             if s_alert_rise_in_rank != "":
                 self.i_alert_rise_in_rank_count += 1
 
-            avg_24h_trading_volume_to_mcad = sum_24h_trading_volume_to_mcad / count_24h_trading_volume_to_mcad if count_24h_trading_volume_to_mcad else None
+            avg_24h_trading_volume_to_mcad = round(sum_24h_trading_volume_to_mcad / count_24h_trading_volume_to_mcad, 1) if count_24h_trading_volume_to_mcad else None
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
