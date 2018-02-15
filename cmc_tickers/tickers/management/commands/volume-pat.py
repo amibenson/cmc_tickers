@@ -8,6 +8,8 @@ class Command(BaseCommand):
     MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH = 100
     help = 'Find ticker with increasing/decreasing volume patterns.'
 
+    ONLY_PERFECT_IF_AVG_VOLUME_TO_MCAP_PERCENT_ABOVE_X = 4
+
     def add_arguments(self, parser):
         #parser.add_argument('-w', '--workers', type=int, default=1, help='number of workers.')
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
@@ -154,13 +156,16 @@ class Command(BaseCommand):
             rank_most_recent_or_now = rs[0].rank
             rank_oldest_logged = rs[len(rs)-1].rank
 
+
+            avg_24h_trading_volume_to_mcad = round(sum_24h_trading_volume_to_mcad / count_24h_trading_volume_to_mcad, 1) if count_24h_trading_volume_to_mcad else None
+
             s_alert_rise_in_rank = ""
             if  rank_oldest_logged > rank_most_recent_or_now:
                 percent_rank_rise = int((rank_oldest_logged - rank_most_recent_or_now ) / rank_oldest_logged * 100)
                 if  percent_rank_rise > self.alert_rank_rise_percent_th:
 
                     s_detection_word = "Hey"
-                    if round(trading24tomcap[0],1) > 7.5 or round(trading24tomcap[1],1) > 7.5 :
+                    if avg_24h_trading_volume_to_mcad != None and avg_24h_trading_volume_to_mcad > self.ONLY_PERFECT_IF_AVG_VOLUME_TO_MCAP_PERCENT_ABOVE_X:
                         s_detection_word = "Perfect"
 
                     s_alert_rise_in_rank = "%d) %s, %s rank rises from rank #%s to rank #%s (+%s positions - %s%%)\r\n" % \
@@ -170,7 +175,7 @@ class Command(BaseCommand):
             if s_alert_rise_in_rank != "":
                 self.i_alert_rise_in_rank_count += 1
 
-            avg_24h_trading_volume_to_mcad = round(sum_24h_trading_volume_to_mcad / count_24h_trading_volume_to_mcad, 1) if count_24h_trading_volume_to_mcad else None
+
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
