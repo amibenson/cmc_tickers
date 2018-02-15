@@ -7,7 +7,7 @@ import humanize
 class Command(BaseCommand):
     MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH = 100
     help = 'Find ticker with increasing/decreasing volume patterns.'
-
+    l_tokens_perfect = []
     ONLY_PERFECT_IF_AVG_VOLUME_TO_MCAP_PERCENT_ABOVE_X = 4
 
     def add_arguments(self, parser):
@@ -49,6 +49,11 @@ class Command(BaseCommand):
                     print("== Skipping %s with %s readings in total (min: %s)\r\n" % (rec_coin.symbol, len(rs), self.minimum_readings_to_analyze_coin))
         else:
             self.print_ticker_history_rs_data(rs)
+
+        #
+        #
+        #
+        print("There are %d Perfect tokens - %s" % (len(self.l_tokens_perfect), ",".join(self.l_tokens_perfect) ))
 
     def print_ticker_history_rs_data(self, rs_TickerHistory):
         rs = rs_TickerHistory
@@ -167,6 +172,7 @@ class Command(BaseCommand):
                     s_detection_word = "Hey"
                     if avg_24h_trading_volume_to_mcad != None and avg_24h_trading_volume_to_mcad > self.ONLY_PERFECT_IF_AVG_VOLUME_TO_MCAP_PERCENT_ABOVE_X:
                         s_detection_word = "Perfect"
+                        self.l_tokens_perfect.append(which_symbol)
 
                     s_alert_rise_in_rank = "%d) %s, %s rank rises from rank #%s to rank #%s (+%s positions - %s%%)\r\n" % \
                         (self.i_alert_rise_in_rank_count+1, s_detection_word, reading, rank_oldest_logged, rank_most_recent_or_now, rank_oldest_logged - rank_most_recent_or_now, percent_rank_rise)
@@ -179,19 +185,17 @@ class Command(BaseCommand):
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
-                    "Rank: #%s - #%s (latest rank: #%s)\r\n"
-                    "Value: %s - %s BTC (latest value: %s BTC)\r\n"
-                    "MCAP: %s - %s (latest Market Cap: %s)\r\n"
-                    "24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings)\r\n"
+                    "%s Rank: #%s - #%s (latest rank: #%s)\r\n"
+                    "%s Value: %s - %s BTC (latest value: %s BTC)\r\n"
+                    "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
+                    "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings)\r\n"
                     "%s"%
                     (which_symbol,
-                     rank_seen[0], rank_seen[1], rs[0].rank,
-                     value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc,
-                     format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
+                     which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
+                     which_symbol, value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc,
+                     which_symbol, format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
                      format_using_humanize(rs[0].markedCapUsd, humanize.intword),
-                     round(trading24tomcap[0],1) if trading24tomcap != None else None,
-                     round(trading24tomcap[1],1) if trading24tomcap != None else None,
-                     get_day_trading_of_mcap_percent_for_obj(obj=rs[0]),
+                     which_symbol, round(trading24tomcap[0],1) if trading24tomcap != None else None, round(trading24tomcap[1],1) if trading24tomcap != None else None, get_day_trading_of_mcap_percent_for_obj(obj=rs[0]),
                      avg_24h_trading_volume_to_mcad,
                      count_24h_trading_volume_to_mcad,
                      s_alert_rise_in_rank
