@@ -58,6 +58,9 @@ class Command(BaseCommand):
             trading24tomcap = None
             s_prev_displayed_percent_reading_in_period = None
 
+            sum_24h_trading_volume_to_mcad = 0
+            count_24h_trading_volume_to_mcad = 0
+
             count_available_ticker_readings = len(rs)
             SHOW_X_TICKER_READINGS = 10
 
@@ -71,9 +74,9 @@ class Command(BaseCommand):
             for indx_of_available_reading, reading in enumerate(rs):
                 s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
                 if s_percent != None:
-                    fl_percent = float(s_percent.replace('%', ''))
+                    fl_percent_24h_trading_volume_to_mcad = float(s_percent.replace('%', ''))
                 else:
-                    fl_percent = None
+                    fl_percent_24h_trading_volume_to_mcad = None
 
                 current_available_reading_percent_in_available_period = int((indx_of_available_reading / count_available_ticker_readings) * 100)
                 if current_available_reading_percent_in_available_period % SHOW_X_TICKER_READINGS == 0 or indx_of_available_reading+1 == len(rs):
@@ -89,9 +92,12 @@ class Command(BaseCommand):
                           )
                     s_prev_displayed_percent_reading_in_period = s_displayed_percent_reading_in_period
 
-                if fl_percent != None:
-                    if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen < fl_percent:
-                        flt_max_24h_trading_volume_to_mcad_seen = fl_percent
+                if fl_percent_24h_trading_volume_to_mcad != None:
+                    sum_24h_trading_volume_to_mcad += fl_percent_24h_trading_volume_to_mcad
+                    count_24h_trading_volume_to_mcad += 1
+
+                    if flt_max_24h_trading_volume_to_mcad_seen == None or flt_max_24h_trading_volume_to_mcad_seen < fl_percent_24h_trading_volume_to_mcad:
+                        flt_max_24h_trading_volume_to_mcad_seen = fl_percent_24h_trading_volume_to_mcad
 
                 if not which_symbol:
                     which_symbol = reading.symbol
@@ -117,16 +123,16 @@ class Command(BaseCommand):
                             value_btc_seen[0] = reading.priceBtc
 
                 # 24h trading / mcap
-                if fl_percent != None:
-                    if not trading24tomcap or fl_percent > trading24tomcap[1] or fl_percent < trading24tomcap[0]:
+                if fl_percent_24h_trading_volume_to_mcad != None:
+                    if not trading24tomcap or fl_percent_24h_trading_volume_to_mcad > trading24tomcap[1] or fl_percent_24h_trading_volume_to_mcad < trading24tomcap[0]:
                         if not trading24tomcap:
-                            trading24tomcap = [fl_percent , fl_percent]
+                            trading24tomcap = [fl_percent_24h_trading_volume_to_mcad , fl_percent_24h_trading_volume_to_mcad]
                         else:
-                            if fl_percent > trading24tomcap[1]:
-                                trading24tomcap[1] = fl_percent
+                            if fl_percent_24h_trading_volume_to_mcad > trading24tomcap[1]:
+                                trading24tomcap[1] = fl_percent_24h_trading_volume_to_mcad
 
-                            if fl_percent < trading24tomcap[0]:
-                                trading24tomcap[0] = fl_percent
+                            if fl_percent_24h_trading_volume_to_mcad < trading24tomcap[0]:
+                                trading24tomcap[0] = fl_percent_24h_trading_volume_to_mcad
 
                 # mcap
                 if reading.markedCapUsd != None:
@@ -164,12 +170,14 @@ class Command(BaseCommand):
             if s_alert_rise_in_rank != "":
                 self.i_alert_rise_in_rank_count += 1
 
+            avg_24h_trading_volume_to_mcad = sum_24h_trading_volume_to_mcad / count_24h_trading_volume_to_mcad if count_24h_trading_volume_to_mcad else None
+
             print("=======================\r\n"
                     "Summray for %s:\r\n"
                     "Rank: #%s - #%s (latest rank: #%s)\r\n"
                     "Value: %s - %s BTC (latest value: %s BTC)\r\n"
                     "MCAP: %s - %s (latest Market Cap: %s)\r\n"
-                    "24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s)\r\n"
+                    "24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s%%, Avg. Trading / MCAP: %s%% from %d readings)\r\n"
                     "%s"%
                     (which_symbol,
                      rank_seen[0], rank_seen[1], rs[0].rank,
@@ -179,6 +187,8 @@ class Command(BaseCommand):
                      round(trading24tomcap[0],1) if trading24tomcap != None else None,
                      round(trading24tomcap[1],1) if trading24tomcap != None else None,
                      get_day_trading_of_mcap_percent_for_obj(obj=rs[0]),
+                     avg_24h_trading_volume_to_mcad,
+                     count_24h_trading_volume_to_mcad,
                      s_alert_rise_in_rank
                      )
                   )
