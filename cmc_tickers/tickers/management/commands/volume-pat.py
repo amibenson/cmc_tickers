@@ -64,6 +64,7 @@ class Command(BaseCommand):
             value_btc_seen = None
             trading24tomcap = None
             s_prev_displayed_percent_reading_in_period = None
+            fl_coin_latest_base_btc_value = None
 
             sum_24h_trading_volume_to_mcad = 0
             count_24h_trading_volume_to_mcad = 0
@@ -94,9 +95,18 @@ class Command(BaseCommand):
 
                 # Print ticker if last ticker read (oldest one) or if we reached far enough from previous printed ticker
                 if (indx_of_available_reading % print_reading_modulo == 0 and s_displayed_percent_reading_in_period != s_prev_displayed_percent_reading_in_period) or indx_of_available_reading+1 == len(rs):
-                    print("%s%% - %s symbol ticker was read %s, rank #%s, value %s BTC (%s%% daily change) with %s trading percent (MCAP: %s)" % \
-                          (s_displayed_percent_reading_in_period, reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword)) \
+                    if fl_coin_latest_base_btc_value != None:
+                        s_change_from_base_btc_value = " - We are %s%% from here" % (((fl_coin_latest_base_btc_value-reading.priceBtc) / reading.priceBtc)*100)
+                    else:
+                        s_change_from_base_btc_value = ""
+
+                    print("%s%% - %s symbol ticker was read %s, rank #%s, value %s BTC (%s%% daily change) with %s trading percent (MCAP: %s)%s" % \
+                          (s_displayed_percent_reading_in_period, reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword),
+                          s_change_from_base_btc_value) \
                           )
+                    if s_prev_displayed_percent_reading_in_period == None: # save base
+                        fl_coin_latest_base_btc_value = reading.priceBtc
+
                     s_prev_displayed_percent_reading_in_period = s_displayed_percent_reading_in_period
 
                 if fl_percent_24h_trading_volume_to_mcad != None:
