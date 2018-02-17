@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 # Print ticker if last ticker read (oldest one) or if we reached far enough from previous printed ticker
                 if (indx_of_available_reading % print_reading_modulo == 0 and s_displayed_percent_reading_in_period != s_prev_displayed_percent_reading_in_period) or indx_of_available_reading+1 == len(rs):
                     if fl_coin_latest_base_btc_value != None:
-                        s_change_from_base_btc_value = " : %s%% gain by now" % round(((fl_coin_latest_base_btc_value-reading.priceBtc) / reading.priceBtc)*100, 1 )
+                        s_change_from_base_btc_value = " : %d%% gain within %s days" % (int(((fl_coin_latest_base_btc_value-reading.priceBtc) / reading.priceBtc)*100), (coin_latest_base_last_updated-reading.lastUpdated).days)
                     else:
                         s_change_from_base_btc_value = ""
 
@@ -106,6 +106,7 @@ class Command(BaseCommand):
                           )
                     if s_prev_displayed_percent_reading_in_period == None: # save base
                         fl_coin_latest_base_btc_value = reading.priceBtc
+                        coin_latest_base_last_updated = reading.lastUpdated
 
                     s_prev_displayed_percent_reading_in_period = s_displayed_percent_reading_in_period
 
