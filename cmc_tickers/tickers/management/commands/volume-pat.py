@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 # Print ticker if last ticker read (oldest one) or if we reached far enough from previous printed ticker
                 if (indx_of_available_reading % print_reading_modulo == 0 and s_displayed_percent_reading_in_period != s_prev_displayed_percent_reading_in_period) or indx_of_available_reading+1 == len(rs):
                     if fl_coin_latest_base_btc_value != None:
-                        s_change_from_base_btc_value = " - We are %s%% from here" % (((fl_coin_latest_base_btc_value-reading.priceBtc) / reading.priceBtc)*100)
+                        s_change_from_base_btc_value = " : %s%% of current value" % round(((fl_coin_latest_base_btc_value-reading.priceBtc) / reading.priceBtc)*100, 1 )
                     else:
                         s_change_from_base_btc_value = ""
 
