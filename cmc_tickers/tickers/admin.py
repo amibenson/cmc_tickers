@@ -24,7 +24,7 @@ format_time_ago_dateAdded.admin_order_field = 'dateAdded'
 
 
 def format_day_trading_to_market_cap_percent(obj):
-    return  get_day_trading_of_mcap_percent(obj.dayVolumeUsd, obj.markedCapUsd) #
+    return  get_day_trading_of_mcap_percent(obj.dayVolumeUsd, obj.marketCapUsd) #
 format_day_trading_to_market_cap_percent.short_description = 'day trading/mcap'
 format_day_trading_to_market_cap_percent.allow_tags = True
 format_day_trading_to_market_cap_percent.admin_order_field = 'dayVolumeUsd'
@@ -46,10 +46,10 @@ format_name.short_description = 'name'
 format_name.admin_order_field = 'name'
 
 
-def format_markedCapUsd(obj):
-    return format_using_humanize(obj.markedCapUsd, humanize.intword)
-format_markedCapUsd.short_description = 'markedCapUsd'
-format_markedCapUsd.admin_order_field = 'markedCapUsd'
+def format_marketCapUsd(obj):
+    return format_using_humanize(obj.marketCapUsd, humanize.intword)
+format_marketCapUsd.short_description = 'marketCapUsd'
+format_marketCapUsd.admin_order_field = 'marketCapUsd'
 
 def format_dayVolumeUsd(obj):
     return format_using_humanize(obj.dayVolumeUsd, humanize.intword)
@@ -61,7 +61,7 @@ format_dayVolumeUsd.admin_order_field = 'dayVolumeUsd'
 
 @admin.register(Ticker)
 class TickerAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name,  'priceBtc', 'priceUsd', format_dayVolumeUsd, 'percentChange24h', format_markedCapUsd,  format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
+    list_display = ('rank', format_name,  'priceBtc', 'priceUsd', format_dayVolumeUsd, 'percentChange24h', format_marketCapUsd,  format_time_ago_lastUpdated, format_time_ago_dateAdded, format_day_trading_to_market_cap_percent)
     ordering = ('rank', )
     list_filter = ('symbol',)
     search_fields = ['name', 'symbol' ]
@@ -69,7 +69,7 @@ class TickerAdmin(admin.ModelAdmin):
 
 @admin.register(TickerHistory)
 class TickerHistoryAdmin(admin.ModelAdmin):
-    list_display = ('rank', format_name,  'priceBtc', 'priceUsd', format_dayVolumeUsd,  'percentChange24h', format_markedCapUsd, format_time_ago_lastUpdated, format_day_trading_to_market_cap_percent)
+    list_display = ('rank', format_name,  'priceBtc', 'priceUsd', format_dayVolumeUsd,  'percentChange24h', format_marketCapUsd, format_time_ago_lastUpdated, format_day_trading_to_market_cap_percent)
     ordering = ('-lastUpdated', )
     list_filter = ('symbol', 'tickerId')
     search_fields = [ 'symbol', 'tickerId' ]
