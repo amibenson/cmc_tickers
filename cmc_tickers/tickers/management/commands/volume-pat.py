@@ -206,22 +206,28 @@ class Command(BaseCommand):
                 self.i_alert_rise_in_rank_count += 1
 
 
+            latest_24h_trading_volume_to_mcad = get_day_trading_of_mcap_percent_for_obj(obj=rs[0])
+
+            power_increase_rading_volume_to_mcad = int((latest_24h_trading_volume_to_mcad / avg_24h_trading_volume_to_mcad) * 100)
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
                     "%s Rank: #%s - #%s (latest rank: #%s)\r\n"
                     "%s Value: %s - %s BTC (latest value: %s BTC)\r\n"
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
-                    "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings)\r\n"
+                    "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- Now power increase trading volume to mcad %d%%\r\n"
                     "%s"%
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
                      which_symbol, value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc,
                      which_symbol, format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
                      format_using_humanize(rs[0].markedCapUsd, humanize.intword),
-                     which_symbol, round(trading24tomcap[0],1) if trading24tomcap != None else None, round(trading24tomcap[1],1) if trading24tomcap != None else None, get_day_trading_of_mcap_percent_for_obj(obj=rs[0]),
+                     which_symbol, round(trading24tomcap[0],1) if trading24tomcap != None else None,
+                     round(trading24tomcap[1],1) if trading24tomcap != None else None,
+                     latest_24h_trading_volume_to_mcad,
                      avg_24h_trading_volume_to_mcad,
                      count_24h_trading_volume_to_mcad,
+                     power_increase_rading_volume_to_mcad,
                      s_alert_rise_in_rank
                      )
                   )
