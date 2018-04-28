@@ -3,6 +3,8 @@ from django.core.management.base import BaseCommand
 from  tickers.models import *
 from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import humanize
+import timedelta
+import datetime
 
 class Command(BaseCommand):
     MINIMUM_READINGS_TO_PROCESS_TICKER_AS_INTERESTING_TO_WATCH = 100
