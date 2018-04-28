@@ -12,6 +12,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         #parser.add_argument('-w', '--workers', type=int, default=1, help='number of workers.')
+        parser.add_argument('-d', '--days', type=int, default=5, help='Number of days backwards to look back on coin history from now')
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
         parser.add_argument('-t', '--alerttp', type=int, default=10, help='Alert when 24 volume / mcap percent above')
         parser.add_argument('-r', '--alertrrp', type=int, default=10, help='Alert rank rise percent')
@@ -20,12 +21,15 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         symbol = options['symbol']
+
+        self.days_in_history_to_look_back = int(options['days'])
         self.alert_trading_volume_percent_th = int(options['alerttp'])
         self.alert_rank_rise_percent_th = int(options['alertrrp'])
         self.minimum_readings_to_analyze_coin = int(options['minreads'])
         self.i_alert_rise_in_rank_count=0
 
         print("Started with symbol: %s" % (symbol))
+        print("Looking back %d days in history" % (self.days_in_history_to_look_back))
         print("Started with alert_trading_volume_percent_th: %s" % (self.alert_trading_volume_percent_th))
         print("Started with alert_rank_rise_percent_th: %s" % (self.alert_rank_rise_percent_th))
         if symbol:
