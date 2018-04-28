@@ -208,7 +208,7 @@ class Command(BaseCommand):
 
             latest_24h_trading_volume_to_mcad = get_day_trading_of_mcap_percent_for_obj(obj=rs[0])
 
-            power_increase_rading_volume_to_mcad = int((float(latest_24h_trading_volume_to_mcad) / avg_24h_trading_volume_to_mcad) * 100)
+            power_increase_rading_volume_to_mcad = int((float(latest_24h_trading_volume_to_mcad.replace('%', '')) / avg_24h_trading_volume_to_mcad) * 100)
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
