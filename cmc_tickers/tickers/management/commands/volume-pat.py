@@ -37,16 +37,18 @@ class Command(BaseCommand):
 
         print("Started with %s" % symbol if symbol else "no specific symbol (will go over all of them)")
 
+        dt_limit_time = datetime.datetime.now()-timedelta(days=self.days_in_history_to_look_back)
+
         if symbol:
             rs_which_coins = None
-            rs = TickerHistory.objects.filter(symbol=symbol).order_by('-lastUpdated')
+            rs = TickerHistory.objects.filter(symbol=symbol).filter(lastUpdated__gte=dt_limit_time).order_by('-lastUpdated')
         else:
             rs_which_coins = Ticker.objects.all().order_by('-rank')
 
         if rs_which_coins:
 
             for rec_coin in rs_which_coins:
-                rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).order_by('-lastUpdated')
+                rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).filter(lastUpdated__gte=dt_limit_time).order_by('-lastUpdated')
                 if len(rs)>self.minimum_readings_to_analyze_coin:
                     self.print_ticker_history_rs_data(rs)
                 else:
