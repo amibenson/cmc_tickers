@@ -16,7 +16,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         #parser.add_argument('-w', '--workers', type=int, default=1, help='number of workers.')
         #
-        parser.add_argument('-mr', '--max_current_rank', type=int, default=100, help='Max. current or today rank of coin to filter by')
+        parser.add_argument('-mcr', '--max_current_rank', type=int, default=100, help='Max. current or today rank of coin to filter by')
         parser.add_argument('-d', '--days', type=int, default=5, help='Number of days backwards to look back on coin history from now')
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
         parser.add_argument('-t', '--alerttp', type=int, default=10, help='Alert when 24 volume / mcap percent above')
