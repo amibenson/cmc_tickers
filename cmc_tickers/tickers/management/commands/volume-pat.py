@@ -4,6 +4,7 @@ from  tickers.models import *
 from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import humanize
 from datetime import timedelta
+from django.utils import timezone
 import datetime
 
 class Command(BaseCommand):
@@ -30,8 +31,8 @@ class Command(BaseCommand):
         self.minimum_readings_to_analyze_coin = int(options['minreads'])
         self.i_alert_rise_in_rank_count=0
 
-        print("Started with symbol: %s" % (symbol))
-        print("Looking back %d days in history" % (self.days_in_history_to_look_back))
+        print("Started with symbol: %s (max %d days back)" % (symbol, self.days_in_history_to_look_back))
+
         print("Started with alert_trading_volume_percent_th: %s" % (self.alert_trading_volume_percent_th))
         print("Started with alert_rank_rise_percent_th: %s" % (self.alert_rank_rise_percent_th))
         if symbol:
@@ -39,7 +40,7 @@ class Command(BaseCommand):
 
         print("Started with %s" % symbol if symbol else "no specific symbol (will go over all of them)")
 
-        dt_limit_time = datetime.datetime.now()-timedelta(days=self.days_in_history_to_look_back)
+        dt_limit_time = datetime.datetime.now(tz=timezone.utc)-timedelta(days=self.days_in_history_to_look_back)
 
         if symbol:
             rs_which_coins = None
@@ -81,8 +82,8 @@ class Command(BaseCommand):
             SHOW_X_TICKER_READINGS = 10
 
             print_reading_modulo = int(count_available_ticker_readings / SHOW_X_TICKER_READINGS)
-            print("count_available_ticker_readings: %s" % count_available_ticker_readings)
-            print("print_reading_modulo: %s" % print_reading_modulo)
+            print("%s readings (%s per aggregation)" % (count_available_ticker_readings, print_reading_modulo))
+
 
             flt_max_24h_trading_volume_to_mcad_seen = None
             #
