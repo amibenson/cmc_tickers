@@ -65,7 +65,8 @@ class Command(BaseCommand):
         #
         #
         #
-        print("There are %d Perfect tokens - %s" % (len(self.l_tokens_perfect), ",".join(self.l_tokens_perfect) ))
+        if len(self.l_tokens_perfect):
+            print("There are %d Perfect tokens - %s" % (len(self.l_tokens_perfect), ",".join(self.l_tokens_perfect) ))
 
     def print_ticker_history_rs_data(self, rs_TickerHistory):
         rs = rs_TickerHistory
