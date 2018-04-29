@@ -208,14 +208,18 @@ class Command(BaseCommand):
 
             latest_24h_trading_volume_to_mcad = get_day_trading_of_mcap_percent_for_obj(obj=rs[0])
 
-            power_increase_rading_volume_to_mcad = int((float(latest_24h_trading_volume_to_mcad.replace('%', '')) / avg_24h_trading_volume_to_mcad) * 100)
+            if avg_24h_trading_volume_to_mcad: # avoid zero divide
+                power_increase_rading_volume_to_mcad = int((float(latest_24h_trading_volume_to_mcad.replace('%', '')) / avg_24h_trading_volume_to_mcad) * 100)
+            else:
+                power_increase_rading_volume_to_mcad = None
+
 
             print("=======================\r\n"
                     "Summray for %s:\r\n"
                     "%s Rank: #%s - #%s (latest rank: #%s)\r\n"
                     "%s Value: %s - %s BTC (latest value: %s BTC)\r\n"
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
-                    "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- Now power increase trading volume to mcad %d%%\r\n"
+                    "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- Now power increase trading volume to mcad %s%%\r\n"
                     "%s"%
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
