@@ -211,6 +211,9 @@ class Command(BaseCommand):
 
             if avg_24h_trading_volume_to_mcad: # avoid zero divide
                 power_increase_rading_volume_to_mcad = int((float(latest_24h_trading_volume_to_mcad.replace('%', '')) / avg_24h_trading_volume_to_mcad) * 100)
+
+                if power_increase_rading_volume_to_mcad> 100:
+                    power_increase_rading_volume_to_mcad = power_increase_rading_volume_to_mcad - 100
             else:
                 power_increase_rading_volume_to_mcad = None
 
