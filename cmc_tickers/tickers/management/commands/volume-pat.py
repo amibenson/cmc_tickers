@@ -132,7 +132,7 @@ class Command(BaseCommand):
                         flt_max_24h_trading_volume_to_mcad_seen = fl_percent_24h_trading_volume_to_mcad
 
                 if not which_symbol:
-                    which_symbol = reading.symbol
+                    which_symbol = "%s (%s)" % (reading.name, reading.symbol)
                 # rank
                 if not rank_seen or reading.rank > rank_seen[1] or reading.rank < rank_seen[0]:
                     if not rank_seen:
@@ -221,7 +221,7 @@ class Command(BaseCommand):
 
 
             print("=======================\r\n"
-                    "Summray for %s:\r\n"
+                    "Summary for %s:\r\n"
                     "%s Rank: #%s - #%s (latest rank: #%s)\r\n"
                     "%s Value: %s - %s BTC (latest value: %s BTC)\r\n"
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
