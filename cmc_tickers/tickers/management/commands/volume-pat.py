@@ -5,7 +5,7 @@ from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import humanize
 from datetime import timedelta
 from django.utils import timezone
-from cmc_tickers.cmc_tickers.utils import *
+from cmc_tickers.utils import *
 import datetime
 
 class Command(BaseCommand):
