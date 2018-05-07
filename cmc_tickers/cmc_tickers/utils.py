@@ -18,7 +18,7 @@ def color_green(msg):
     return color_text (msg, which_color = FORE_COLOR_GREEN)
 
 def color_red(msg):
-    return color_text (msg, which_color = FORE_COLOR_RED)
+    return color_text (msg, which_color = FORE_COLOR_CYAN)
 
 def color_number_above_below(number, border_value=0):
     if number > border_value:
