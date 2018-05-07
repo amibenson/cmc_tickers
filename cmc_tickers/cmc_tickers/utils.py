@@ -39,7 +39,7 @@ def color_text (msg, which_color = FORE_COLOR_BLUE):
         pass
 
     try:
-        return which_color + msg + Style.RESET_ALL# back to normal color now
+        return which_color + str(msg) + Style.RESET_ALL# back to normal color now
 
     except IOError as e: # avoid "sys.stdout access restricted by mod_wsgi"
         pass
