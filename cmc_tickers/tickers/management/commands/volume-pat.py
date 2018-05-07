@@ -239,7 +239,7 @@ class Command(BaseCommand):
                      avg_24h_trading_volume_to_mcad,
                      count_24h_trading_volume_to_mcad,
                      color_number_above_below(power_increase_rading_volume_to_mcad, border_value=0),
-                     s_alert_rise_in_rank
+                     color_green(s_alert_rise_in_rank)
                      )
                   )
 
