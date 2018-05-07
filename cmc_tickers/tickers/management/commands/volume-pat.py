@@ -5,6 +5,7 @@ from  tickers.utils import * # get_time_ago, get_day_trading_of_mcap_percent
 import humanize
 from datetime import timedelta
 from django.utils import timezone
+from cmc_tickers.cmc_tickers.utils import *
 import datetime
 
 class Command(BaseCommand):
@@ -34,7 +35,7 @@ class Command(BaseCommand):
         self.minimum_readings_to_analyze_coin = int(options['minreads'])
         self.i_alert_rise_in_rank_count=0
 
-        print("Started with symbol: %s (max %d days back) (max_current_rank: %d)" % (symbol, self.days_in_history_to_look_back, self.max_current_rank))
+        print (color_blue("Started with symbol: %s (max %d days back) (max_current_rank: %d)" % (symbol, self.days_in_history_to_look_back, self.max_current_rank)))
 
         print("Started with alert_trading_volume_percent_th: %s" % (self.alert_trading_volume_percent_th))
         print("Started with alert_rank_rise_percent_th: %s" % (self.alert_rank_rise_percent_th))

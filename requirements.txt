@@ -13,3 +13,5 @@ urllib3==1.22
 timeago==1.0.7
 humanize==0.5.1
 django-flat-responsive==2.0
+colorama==0.3.9
+Fabric==1.13.2
