@@ -223,13 +223,13 @@ class Command(BaseCommand):
             print("=======================\r\n"
                     "Summary for %s:\r\n"
                     "%s Rank: #%s - #%s (latest rank: #%s)\r\n"
-                    "%s Value: %s - %s BTC (latest value: %s BTC)\r\n"
+                    "%s Value: %s - %s BTC (latest value: %s BTC - %s USD)\r\n"
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
                     "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- change in trading volume / mcad now compared to avg - %s%%\r\n"
                     "%s"%
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
-                     which_symbol, value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc,
+                     which_symbol, value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc, rs[0].priceUsd,
                      which_symbol, format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
                      format_using_humanize(rs[0].markedCapUsd, humanize.intword),
                      which_symbol, round(trading24tomcap[0],1) if trading24tomcap != None else None,
