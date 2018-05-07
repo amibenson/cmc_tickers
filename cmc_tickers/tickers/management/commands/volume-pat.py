@@ -114,8 +114,8 @@ class Command(BaseCommand):
                     else:
                         s_change_from_base_btc_value = ""
 
-                    print("%s%% - %s symbol ticker was read %s, rank #%s, value %s BTC (%s%% daily change) with %s trading percent (MCAP: %s)%s" % \
-                          (s_displayed_percent_reading_in_period, reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword),
+                    print("%s%% - %s symbol ticker was read %s, rank #%s, value %s BTC (%s%% daily change) - %s USD with %s trading percent (MCAP: %s)%s" % \
+                          (s_displayed_percent_reading_in_period, reading.symbol, get_time_ago(reading.lastUpdated), reading.rank, reading.priceBtc, reading.percentChange24h, reading.priceUsd, s_percent, format_using_humanize(reading.markedCapUsd, humanize.intword),
                           s_change_from_base_btc_value) \
                           )
                     if s_prev_displayed_percent_reading_in_period == None: # save base
