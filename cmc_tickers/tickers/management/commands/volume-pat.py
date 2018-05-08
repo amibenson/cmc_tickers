@@ -230,7 +230,7 @@ class Command(BaseCommand):
                     "%s"%
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
-                     which_symbol, value_btc_seen[0], value_btc_seen[1], rs[0].priceBtc, rs[0].priceUsd,
+                     which_symbol, color_red(value_btc_seen[0]), color_green(value_btc_seen[1]), color_blue(rs[0].priceBtc), rs[0].priceUsd,
                      which_symbol, format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
                      format_using_humanize(rs[0].markedCapUsd, humanize.intword),
                      which_symbol, round(trading24tomcap[0],1) if trading24tomcap != None else None,
