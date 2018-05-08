@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 FORE_COLOR_YELLOW = Fore.YELLOW
 FORE_COLOR_GREEN = Fore.GREEN
 FORE_COLOR_RED = Fore.RED
-FORE_COLOR_ORANGE_RED = Fore.ORANGERED
+
 FORE_COLOR_BLUE = Fore.BLUE
 FORE_COLOR_WHITE = Fore.WHITE
 FORE_COLOR_CYAN = Fore.CYAN
@@ -19,7 +19,7 @@ def color_green(msg):
     return color_text (msg, which_color = FORE_COLOR_GREEN)
 
 def color_red(msg):
-    return color_text (msg, which_color = FORE_COLOR_ORANGE_RED)
+    return color_text (msg, which_color = FORE_COLOR_RED)
 
 def color_number_above_below(number, border_value=0):
     if number > border_value:
