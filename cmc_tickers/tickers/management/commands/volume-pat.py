@@ -15,9 +15,8 @@ class Command(BaseCommand):
     ONLY_PERFECT_IF_AVG_VOLUME_TO_MCAP_PERCENT_ABOVE_X = 4
 
     def add_arguments(self, parser):
-        #parser.add_argument('-w', '--workers', type=int, default=1, help='number of workers.')
-        #
-        parser.add_argument('-mcr', '--max_current_rank', type=int, default=100, help='Max. current or today rank of coin to filter by')
+        parser.add_argument('-mincr', '--min_current_rank', type=int, default=1, help='Min. current or today rank of coin to filter by')
+        parser.add_argument('-maxcr', '--max_current_rank', type=int, default=100, help='Max. current or today rank of coin to filter by')
         parser.add_argument('-d', '--days', type=int, default=5, help='Number of days backwards to look back on coin history from now')
         parser.add_argument('-s', '--symbol', type=str, default=None, help='Specific symbol name')
         parser.add_argument('-t', '--alerttp', type=int, default=10, help='Alert when 24 volume / mcap percent above')
@@ -29,13 +28,14 @@ class Command(BaseCommand):
         symbol = options['symbol']
 
         self.days_in_history_to_look_back = int(options['days'])
+        self.min_current_rank = int(options['min_current_rank'])
         self.max_current_rank = int(options['max_current_rank'])
         self.alert_trading_volume_percent_th = int(options['alerttp'])
         self.alert_rank_rise_percent_th = int(options['alertrrp'])
         self.minimum_readings_to_analyze_coin = int(options['minreads'])
         self.i_alert_rise_in_rank_count=0
 
-        print (color_blue("Started with symbol: %s (max %d days back) (max_current_rank: %d)" % (symbol, self.days_in_history_to_look_back, self.max_current_rank)))
+        print (color_blue("Started with symbol: %s (max %d days back) (min_current_rank/max_current_rank: %d-%d)" % (symbol, self.days_in_history_to_look_back, self.min_current_rank, self.max_current_rank)))
 
         print("Started with alert_trading_volume_percent_th: %s" % (self.alert_trading_volume_percent_th))
         print("Started with alert_rank_rise_percent_th: %s" % (self.alert_rank_rise_percent_th))
@@ -50,7 +50,7 @@ class Command(BaseCommand):
             rs_which_coins = None
             rs = TickerHistory.objects.filter(symbol=symbol).filter(lastUpdated__gte=dt_limit_time).order_by('-lastUpdated')
         else:
-            rs_which_coins = Ticker.objects.filter(rank__lte=self.max_current_rank).order_by('-rank')
+            rs_which_coins = Ticker.objects.filter(rank__gte=self.min_current_rank, rank__lte=self.max_current_rank).order_by('-rank')
 
         if rs_which_coins:
 
