@@ -22,10 +22,13 @@ def color_red(msg):
     return color_text (msg, which_color = FORE_COLOR_RED)
 
 def color_number_above_below(number, border_value=0):
-    if number > border_value:
-        return color_green(number)
-    elif number < border_value:
-        return color_red(number)
+    if number != None:
+        if number > border_value:
+            return color_green(number)
+        elif number < border_value:
+            return color_red(number)
+        else:
+            return number
     else:
         return number
 
