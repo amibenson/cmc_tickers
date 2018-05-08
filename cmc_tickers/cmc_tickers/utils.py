@@ -11,6 +11,13 @@ FORE_COLOR_WHITE = Fore.WHITE
 FORE_COLOR_CYAN = Fore.CYAN
 FORE_COLOR_MAGENTA = Fore.MAGENTA
 
+def percent_between_numbers(n, min, max):
+    if max != None and min != None and n != None:
+        d = max - min
+        return int((n-min) / d * 100)
+    else:
+        return None
+
 
 def color_blue(msg):
     return color_text (msg, which_color = FORE_COLOR_BLUE)
@@ -21,12 +28,12 @@ def color_green(msg):
 def color_red(msg):
     return color_text (msg, which_color = FORE_COLOR_RED)
 
-def color_number_above_below(number, border_value=0):
+def color_number_above_below(number, border_value=0, reverse_coloring=False):
     if number != None:
         if number > border_value:
-            return color_green(number)
+            return color_green(number) if not reverse_coloring else color_red(number)
         elif number < border_value:
-            return color_red(number)
+            return color_red(number) if not reverse_coloring else color_green(number)
         else:
             return number
     else:
