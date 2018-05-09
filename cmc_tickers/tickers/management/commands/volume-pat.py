@@ -57,11 +57,11 @@ class Command(BaseCommand):
             for rec_coin in rs_which_coins:
                 rs = TickerHistory.objects.filter(symbol=rec_coin.symbol).filter(lastUpdated__gte=dt_limit_time).order_by('-lastUpdated')
                 if len(rs)>self.minimum_readings_to_analyze_coin:
-                    self.print_ticker_history_rs_data(rs)
+                    self.print_ticker_history_rs_data(rs, rec_coin.symbol)
                 else:
                     print("== Skipping %s with %s readings in total (min: %s)\r\n" % (rec_coin.symbol, len(rs), self.minimum_readings_to_analyze_coin))
         else:
-            self.print_ticker_history_rs_data(rs)
+            self.print_ticker_history_rs_data(rs, symbol)
 
         #
         #
@@ -69,7 +69,14 @@ class Command(BaseCommand):
         if len(self.l_tokens_perfect):
             print("There are %d Perfect tokens - %s" % (len(self.l_tokens_perfect), ",".join(self.l_tokens_perfect) ))
 
-    def print_ticker_history_rs_data(self, rs_TickerHistory):
+
+    #
+    # Function gets a TickerHistory rs from startDate to EndDate.
+    #
+    def print_ticker_history_rs_data(self, rs_TickerHistory, which_coin_symbol):
+        l_values_all = []
+        l_values_points = []
+
         rs = rs_TickerHistory
         if rs:
             which_symbol = None
@@ -94,6 +101,11 @@ class Command(BaseCommand):
             #
             print("=======================\r\n")
             for indx_of_available_reading, reading in enumerate(rs):
+                if str(which_coin_symbol).upper() != 'BTC':
+                    l_values_all += [reading.priceBtc]
+                else:
+                    l_values_all += [reading.priceUsd]
+
                 s_percent = get_day_trading_of_mcap_percent_for_obj(obj=reading)
                 if s_percent != None:
                     fl_percent_24h_trading_volume_to_mcad = float(s_percent.replace('%', ''))
@@ -229,7 +241,8 @@ class Command(BaseCommand):
                     "%s Value Range: %s - %s BTC (latest value: %s BTC - %s USD) - current BTC value is in %s%% of range of last %s days\r\n"
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
                     "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- change in trading volume / mcad now compared to avg - %s%%\r\n"
-                    "%s"%
+                    "%s\r\n\r\n"
+                    "l_values_all: %s" %
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
                      which_symbol, color_red(value_btc_seen[0]), color_green(value_btc_seen[1]), color_blue(rs[0].priceBtc), rs[0].priceUsd, color_number_above_below(i_percent_between_min_max, border_value=35, reverse_coloring=True), self.days_in_history_to_look_back,
@@ -241,7 +254,8 @@ class Command(BaseCommand):
                      avg_24h_trading_volume_to_mcad,
                      count_24h_trading_volume_to_mcad,
                      color_number_above_below(power_increase_rading_volume_to_mcad, border_value=0),
-                     color_green(s_alert_rise_in_rank)
+                     color_green(s_alert_rise_in_rank),
+                     l_values_all
                      )
                   )
 
