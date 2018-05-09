@@ -91,7 +91,7 @@ class Command(BaseCommand):
             count_24h_trading_volume_to_mcad = 0
 
             count_available_ticker_readings = len(rs)
-            SHOW_X_TICKER_READINGS = 10
+            SHOW_X_TICKER_READINGS = 20
 
             print_reading_modulo = int(count_available_ticker_readings / SHOW_X_TICKER_READINGS)
             print("%s readings (%s per aggregation)" % (count_available_ticker_readings, print_reading_modulo))
@@ -121,6 +121,13 @@ class Command(BaseCommand):
 
                 # Print ticker if last ticker read (oldest one) or if we reached far enough from previous printed ticker
                 if (indx_of_available_reading % print_reading_modulo == 0 and s_displayed_percent_reading_in_period != s_prev_displayed_percent_reading_in_period) or indx_of_available_reading+1 == len(rs):
+
+                    if str(which_coin_symbol).upper() != 'BTC':
+                        l_values_points += [reading.priceBtc]
+                    else:
+                        l_values_points += [reading.priceUsd]
+
+
                     if fl_coin_latest_base_btc_value != None:
                         percent_change_from_latest_btc_price = int(((fl_coin_latest_base_btc_value-reading.priceBtc) / reading.priceBtc)*100)
                         s_change_from_base_btc_value = " : %d%% %s within %s days" % (abs(percent_change_from_latest_btc_price), "gain" if percent_change_from_latest_btc_price >= 0 else "loss", (coin_latest_base_last_updated-reading.lastUpdated).days)
@@ -242,7 +249,7 @@ class Command(BaseCommand):
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
                     "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- change in trading volume / mcad now compared to avg - %s%%\r\n"
                     "%s\r\n\r\n"
-                    "l_values_all: %s" %
+                    "l_values_points: %s" %
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
                      which_symbol, color_red(value_btc_seen[0]), color_green(value_btc_seen[1]), color_blue(rs[0].priceBtc), rs[0].priceUsd, color_number_above_below(i_percent_between_min_max, border_value=35, reverse_coloring=True), self.days_in_history_to_look_back,
@@ -255,7 +262,7 @@ class Command(BaseCommand):
                      count_24h_trading_volume_to_mcad,
                      color_number_above_below(power_increase_rading_volume_to_mcad, border_value=0),
                      color_green(s_alert_rise_in_rank),
-                     l_values_all
+                     l_values_points
                      )
                   )
 
