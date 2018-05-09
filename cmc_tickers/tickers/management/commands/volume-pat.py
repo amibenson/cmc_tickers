@@ -91,7 +91,7 @@ class Command(BaseCommand):
             count_24h_trading_volume_to_mcad = 0
 
             count_available_ticker_readings = len(rs)
-            SHOW_X_TICKER_READINGS = 20
+            SHOW_X_TICKER_READINGS = 5
 
             print_reading_modulo = int(count_available_ticker_readings / SHOW_X_TICKER_READINGS)
             print("%s readings (%s per aggregation)" % (count_available_ticker_readings, print_reading_modulo))
