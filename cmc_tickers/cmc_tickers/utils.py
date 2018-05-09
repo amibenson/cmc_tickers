@@ -14,7 +14,10 @@ FORE_COLOR_MAGENTA = Fore.MAGENTA
 def percent_between_numbers(n, min, max):
     if max != None and min != None and n != None:
         d = max - min
-        return int((n-min) / d * 100)
+        if d != 0:
+            return int((n-min) / d * 100)
+        else:
+            return None
     else:
         return None
 

@@ -226,13 +226,13 @@ class Command(BaseCommand):
             print("=======================\r\n"
                     "Summary for %s:\r\n"
                     "%s Rank: #%s - #%s (latest rank: #%s)\r\n"
-                    "%s Value: %s - %s BTC (latest value: %s BTC - %s USD) - current BTC value is in %s%% of range of last %s days\r\n"
+                    "%s Value Range: %s - %s BTC (latest value: %s BTC - %s USD) - current BTC value is in %s%% of range of last %s days\r\n"
                     "%s MCAP: %s - %s (latest Market Cap: %s)\r\n"
                     "%s 24h Trading / MCAP: %s%% - %s%% (latest Trading / MCAP: %s, Avg. Trading / MCAP: %s%% from %d readings) -- change in trading volume / mcad now compared to avg - %s%%\r\n"
                     "%s"%
                     (which_symbol,
                      which_symbol, rank_seen[0], rank_seen[1], rs[0].rank,
-                     which_symbol, color_red(value_btc_seen[0]), color_green(value_btc_seen[1]), color_blue(rs[0].priceBtc), rs[0].priceUsd, color_number_above_below(i_percent_between_min_max, border_value=25, reverse_coloring=True), self.days_in_history_to_look_back,
+                     which_symbol, color_red(value_btc_seen[0]), color_green(value_btc_seen[1]), color_blue(rs[0].priceBtc), rs[0].priceUsd, color_number_above_below(i_percent_between_min_max, border_value=35, reverse_coloring=True), self.days_in_history_to_look_back,
                      which_symbol, format_using_humanize(mcap_seen[0] if mcap_seen != None else None, humanize.intword), format_using_humanize(mcap_seen[1]  if mcap_seen != None else None, humanize.intword),
                      format_using_humanize(rs[0].markedCapUsd, humanize.intword),
                      which_symbol, round(trading24tomcap[0],1) if trading24tomcap != None else None,
